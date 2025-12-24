@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "app/meeting/member/[id]/@left/code/page.js", "components/joinMeeting/JoinSection.jsx", "components/joinMeeting/MeetingDetailsCard.jsx", "components/joinMeeting/MeetingSuggestions.jsx", "components/joinMeeting/SearchArea.jsx"  ],
   "exclude": ["node_modules"]
 }
