@@ -90,9 +90,9 @@ export async function POST(req, res) {
     //   await meeting.save();
     // }
 
-    await Meeting.findByIdAndUpdate(meetingId, {
+     const meeting = await Meeting.findByIdAndUpdate(meetingId, {
       $addToSet: { members: user._id },
-    });
+    } , { new: true });
 
     // const socketAuth = jwt.sign(
     //   { id: user._id, meetingId: meeting._id , username: user.name },
@@ -103,6 +103,7 @@ export async function POST(req, res) {
     return NextResponse.json({
       success: true,
       message: "User added to meeting",
+      data: { meetingId: meeting._id.toString() },
       status: 200,
     });
   } catch (error) {
