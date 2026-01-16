@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 export default function socketAuth(socket, next) {
-  const {token , meetingId} = socket.handshake.auth;
+  const token = socket.handshake.auth?.token;
 
   if (!token) {
     return next(new Error("Unauthorized"));
@@ -14,7 +14,6 @@ export default function socketAuth(socket, next) {
     );
 
     socket.user = user;
-    socket.meetingId = meetingId;
     next();
   } catch (err) {
     next(new Error("Invalid token"));

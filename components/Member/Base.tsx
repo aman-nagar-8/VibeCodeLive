@@ -9,17 +9,11 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 import { TbNotes } from "react-icons/tb";
 import { GoQuestion } from "react-icons/go";
 import Nav_Link from "@/components/Member/Nav_Link";
-import { useEffect } from "react";
-import { connectSocket, getSocket } from "@/lib/connectsocket";
-import { DefaultEventsMap } from "@socket.io/component-emitter";
-import { Socket } from "socket.io-client";
 
 const Base = ({
-  meetingId,
   left,
   right,
 }: {
-  meetingId: string;
   left: React.ReactNode;
   right: React.ReactNode;
 }) => {
@@ -28,25 +22,25 @@ const Base = ({
       title: "Code",
       icon: <RiCodeSSlashLine className="text-green-500" />,
       className: "",
-      href: `/meeting/member/${meetingId}/code`,
+      href: "/meeting/member/11/code",
     },
     {
       title: "WhiteBoard",
       icon: <BsClipboard2 className="text-zinc-300 " />,
       className: "",
-      href: `/meeting/member/${meetingId}/whiteboard`,
+      href: "/meeting/member/11/whiteboard",
     },
     {
       title: "Resourses",
       icon: <HiOutlineBookOpen className="text-blue-500" />,
       className: "",
-      href: `/meeting/member/${meetingId}/resourses`,
+      href: "/meeting/member/11/resourses",
     },
     {
       title: "Problems",
       icon: <GoQuestion className="text-red-500" />,
       className: "",
-      href: `/meeting/member/${meetingId}/problems`,
+      href: "/meeting/member/11/problems",
     },
   ];
 
@@ -55,60 +49,33 @@ const Base = ({
       title: "Code",
       icon: <RiCodeSSlashLine className="text-green-500" />,
       className: "",
-      href: `/meeting/member/${meetingId}/user-code`,
+      href: "/meeting/member/11/user-code",
     },
     {
       title: "Members",
       icon: <FiUser className="text-yellow-500" />,
       className: "",
-      href: `/meeting/member/${meetingId}/members`,
+      href: "/meeting/member/11/members",
     },
     {
       title: "Comments",
       icon: <VscComment className="text-blue-500" />,
       className: "",
-      href: `/meeting/member/${meetingId}/comments`,
+      href: "/meeting/member/11/comments",
     },
     {
       title: "Notes",
       icon: <TbNotes className="text-red-500" />,
       className: "",
-      href: `/meeting/member/${meetingId}/notes`,
+      href: "/meeting/member/11/notes",
     },
     {
       title: "About",
       icon: <IoIosInformationCircleOutline className="text-[#08b5a6]" />,
       className: "",
-      href: `/meeting/member/${meetingId}/about`,
-    },
+      href: "/meeting/member/11/about",
+    }
   ];
-
-  useEffect(() => {
-    let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
-
-    const connectAndJoin = async () => {
-      socket = await connectSocket();
-
-      const join = () => {
-        console.log("Socket connected:", socket.id);
-        socket.emit("joinMeeting", meetingId);
-        console.log(`Joined meeting: ${meetingId}`);
-      };
-
-      if (socket.connected) {
-        // 🔥 MOST IMPORTANT LINE
-        join();
-      } else {
-        socket.once("connect", join);
-      }
-    };
-
-    connectAndJoin();
-
-    return () => {
-      getSocket()?.disconnect();
-    };
-  }, []);
 
   return (
     <Split
@@ -136,7 +103,9 @@ const Base = ({
             />
           ))}
         </div>
-        <div className="flex-1 min-h-0">{left}</div>
+        <div className="flex-1 min-h-0" >
+        {left}
+        </div>
       </div>
       {/* right part */}
       <div className="rounded-lg flex flex-col overflow-hidden h-full">
@@ -151,7 +120,9 @@ const Base = ({
             />
           ))}
         </div>
-        <div className="flex-1 min-h-0">{right}</div>
+        <div className="flex-1 min-h-0" >
+        {right}
+        </div>
       </div>
     </Split>
   );

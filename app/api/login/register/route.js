@@ -11,7 +11,6 @@ import EmailVerification from "@/models/EmailVerification";
 export async function POST(req) {
   try {
     await connectDB();
-    
 
     const result = registerSchema.safeParse(await req.json());
 

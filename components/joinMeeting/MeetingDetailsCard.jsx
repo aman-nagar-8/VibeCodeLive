@@ -6,10 +6,8 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import Api from "@/lib/apiClient";
-import { useRouter } from "next/navigation";
 
 export function MeetingDetailsCard() {
-  const router = useRouter();
   const dispatch = useDispatch();
   const { meeting, currentStep , formData } = useSelector((state) => state.joinMeeting);
   const [password, setPassword] = useState("");
@@ -39,9 +37,6 @@ export function MeetingDetailsCard() {
       return;
     }
     setsuccess("Joined meeting successfully!");
-    setTimeout(() => {
-      router.push(`/meeting/member/${data.data.meetingId}`);
-    }, 2000);
     // redirect to meeting page
     
     
