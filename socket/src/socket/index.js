@@ -12,12 +12,13 @@ export default function initSocket(httpServer) {
   });
 
   io.use(socketAuth);
+  console.log("middleware run");
 
   io.on("connection", (socket) => {
     console.log("🟢 Socket connected:", socket.id);
 
     // 🔹 Register meeting events
-    registerMeetingHandlers(io, socket);
+    registerMeetingHandlers({io, socket});
 
     socket.on("disconnect", (reason) => {
       console.log("🔴 Socket disconnected:", socket.id, reason);

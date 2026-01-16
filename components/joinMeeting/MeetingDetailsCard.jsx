@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { JoinSection } from "./JoinSection";
 import { Video, Users, Clock, Shield, Globe, User } from "lucide-react";
@@ -8,50 +11,51 @@ import { useState } from "react";
 import Api from "@/lib/apiClient";
 
 export function MeetingDetailsCard() {
+  const router = useRouter();
   const dispatch = useDispatch();
-  const { meeting, currentStep , formData } = useSelector((state) => state.joinMeeting);
+  const { meeting, currentStep, formData } = useSelector(
+    (state) => state.joinMeeting
+  );
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setsuccess] = useState("");
 
-
-  const handleJoin = async ()=>{
+  const handleJoin = async () => {
     // redirect to loading section
-    dispatch({type: 'joinMeeting/setCurrentStep', payload: 2});
+    dispatch({ type: "joinMeeting/setCurrentStep", payload: 2 });
 
-   //api call to join meeting
-    const res = await Api.post("/joinmeeting" , {
+    //api call to join meeting
+    const res = await Api.post("/joinmeeting", {
       meetingId: meeting._id,
       password: password,
-      formData: formData
+      formData: formData,
     });
-    const data = res.data
-  
-    if(!data.success){
+    const data = res.data;
+
+    if (!data.success) {
       setError(data.message);
-      console.log(data)
+      console.log(data);
       setTimeout(() => {
-        dispatch({type: 'joinMeeting/setCurrentStep', payload: 1});
+        dispatch({ type: "joinMeeting/setCurrentStep", payload: 1 });
         setError("");
       }, 3000);
       return;
     }
     setsuccess("Joined meeting successfully!");
     // redirect to meeting page
-    
-    
+    sessionStorage.setItem("socketAuth", data.socketAuth);
+    router.push(`/meeting/member/${meeting._id}`);
+
     try {
-      
     } catch (error) {
       console.log("Error joining meeting: ", error);
       setError("Failed to join the meeting. Please try again.");
       setTimeout(() => {
-        dispatch({type: 'joinMeeting/setCurrentStep', payload: 1});
+        dispatch({ type: "joinMeeting/setCurrentStep", payload: 1 });
       }, 3000);
       return;
     }
-
-  }
+  };
 
   return (
     <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden sticky top-6">
@@ -165,7 +169,13 @@ export function MeetingDetailsCard() {
       )}
 
       {/* Join Section */}
-      {currentStep == 1 && <JoinSection handleJoin={handleJoin} password={password} setPassword={setPassword} />}
+      {currentStep == 1 && (
+        <JoinSection
+          handleJoin={handleJoin}
+          password={password}
+          setPassword={setPassword}
+        />
+      )}
       {/* <JoinSection meeting={meeting} /> */}
 
       {currentStep == 2 && <LoadingSection error={error} success={success} />}

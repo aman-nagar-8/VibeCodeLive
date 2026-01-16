@@ -1,5 +1,6 @@
 "use client";
 import Split from "react-split";
+import { io, Socket } from "socket.io-client";
 import { RiCodeSSlashLine } from "react-icons/ri";
 import { BsClipboard2 } from "react-icons/bs";
 import { HiOutlineBookOpen } from "react-icons/hi2";
@@ -9,6 +10,13 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 import { TbNotes } from "react-icons/tb";
 import { GoQuestion } from "react-icons/go";
 import Nav_Link from "@/components/Member/Nav_Link";
+import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { connectSocket, joinMeeting } from "@/lib/socketService";
+import { setMeetingId } from "@/store/meetingSlice";
+import { useDispatch } from "react-redux";
+
+let socket: Socket | null = null;
 
 const Base = ({
   left,
@@ -74,8 +82,66 @@ const Base = ({
       icon: <IoIosInformationCircleOutline className="text-[#08b5a6]" />,
       className: "",
       href: "/meeting/member/11/about",
-    }
+    },
   ];
+
+  // const router = useRouter();
+  // const { id } = useParams<{ id: string }>();
+
+  // useEffect(() => {
+  //   const token = sessionStorage.getItem("socketAuth");
+
+  //   if (!token) {
+  //     router.replace("/meeting/join");
+  //     return;
+  //   }
+  //   console.log(token);
+  //   socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
+  //     transports: ["websocket"],
+  //     auth: {
+  //       token,
+  //     },
+  //   });
+  //   console.log("socket :", socket);
+  //   socket.on("connect", () => {
+  //     console.log("🟢 Socket.IO connected");
+  //     socket?.emit("join-meeting", { meetingId: id });
+  //   });
+  //   socket.on("disconnect", () => {
+  //     console.log("⚫ Socket.IO disconnected");
+  //   });
+
+  //   socket.on("connect_error", (err) => {
+  //     console.error("🔴 Socket.IO error:", err.message);
+  //   });
+
+  //   return () => {
+  //     socket?.disconnect();
+  //   };
+  // }, [router]);
+
+  // useEffect(() => {
+  //   socket?.on("user-joined", (data) => {
+  //     console.log("✅ User joined meeting:", data.user);
+  //   });
+  // }, [socket]);
+
+  const { id } = useParams<{ id: string }>();
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("socketAuth");
+
+    if (!token) {
+      router.replace("/meeting/join");
+      return;
+    }
+
+    connectSocket(token);
+    dispatch(setMeetingId(id));
+    joinMeeting(id);
+  }, [id, dispatch, router]);
 
   return (
     <Split
@@ -103,9 +169,7 @@ const Base = ({
             />
           ))}
         </div>
-        <div className="flex-1 min-h-0" >
-        {left}
-        </div>
+        <div className="flex-1 min-h-0">{left}</div>
       </div>
       {/* right part */}
       <div className="rounded-lg flex flex-col overflow-hidden h-full">
@@ -120,9 +184,7 @@ const Base = ({
             />
           ))}
         </div>
-        <div className="flex-1 min-h-0" >
-        {right}
-        </div>
+        <div className="flex-1 min-h-0">{right}</div>
       </div>
     </Split>
   );
