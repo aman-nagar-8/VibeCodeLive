@@ -27,6 +27,9 @@ const meetingSlice = createSlice({
         (u) => u.userId !== action.payload
       );
     },
+    setParticipants(state, action) {
+      state.participants = action.payload;
+    },
     setConnectionStatus(
       state,
       action: PayloadAction<MeetingState["connectionStatus"]>
@@ -36,11 +39,7 @@ const meetingSlice = createSlice({
   },
 });
 
-export const {
-  setMeetingId,
-  userJoined,
-  userLeft,
-  setConnectionStatus,
-} = meetingSlice.actions;
+export const { setMeetingId, userJoined, userLeft, setConnectionStatus , setParticipants } =
+  meetingSlice.actions;
 
 export default meetingSlice.reducer;

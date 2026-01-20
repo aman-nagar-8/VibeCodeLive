@@ -25,12 +25,14 @@ const Base = ({
   left: React.ReactNode;
   right: React.ReactNode;
 }) => {
+    const { id } = useParams<{ id: string }>();
+
   const leftNavArray = [
     {
       title: "Code",
       icon: <RiCodeSSlashLine className="text-green-500" />,
       className: "",
-      href: "/meeting/member/11/code",
+      href: `/meeting/member/${id}/code`,
     },
     {
       title: "WhiteBoard",
@@ -63,7 +65,7 @@ const Base = ({
       title: "Members",
       icon: <FiUser className="text-yellow-500" />,
       className: "",
-      href: "/meeting/member/11/members",
+      href: `/meeting/member/${id}/members`,
     },
     {
       title: "Comments",
@@ -126,7 +128,7 @@ const Base = ({
   //   });
   // }, [socket]);
 
-  const { id } = useParams<{ id: string }>();
+
   const dispatch = useDispatch();
   const router = useRouter();
 

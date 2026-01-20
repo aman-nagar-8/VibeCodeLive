@@ -4,6 +4,7 @@ import {
   userJoined,
   userLeft,
   setConnectionStatus,
+  setParticipants
 } from "@/store/meetingSlice";
 
 let socket: Socket | null = null;
@@ -22,6 +23,10 @@ export function connectSocket(token: string) {
 
   socket.on("disconnect", () => {
     store.dispatch(setConnectionStatus("disconnected"));
+  });
+
+  socket.on("meeting-members", (members) => {
+    store.dispatch(setParticipants(members));
   });
 
   socket.on("user-joined", (data) => {
