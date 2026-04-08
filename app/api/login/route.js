@@ -70,7 +70,6 @@ export async function POST(req) {
       success: true,
     });
 
-    console.log("refresh token : ", refreshToken);
     // add refresh token in cookies
     response.cookies.set("refreshToken", refreshToken, {
       httpOnly: true,

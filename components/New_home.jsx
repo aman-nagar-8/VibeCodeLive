@@ -5,6 +5,7 @@ import Image from "next/image";
 import StartLearningButton from "@/components/home/Join_session_btn.jsx";
 import Navbar from "@/components/Navbar.jsx";
 import { IoPeopleSharp } from "react-icons/io5";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -14,14 +15,14 @@ export default function Home() {
       {/* HERO SECTION */}
       <div className="bg-[#eef2e6]">
         \
-        <section className="max-w-7xl bg-[#eef2e6] mx-auto px-6 py-20 grid md:grid-cols-2 gap-10 items-center">
+        <section className="max-w-7xl bg-[#eef2e6] mx-auto px-6 py-10 md:py-20 grid md:grid-cols-2 gap-20 md:gap-10 items-center">
           {/* Left content */}
           <div>
             <p className="text-sm font-semibold text-black mb-3">
               Real-Time Teaching
             </p>
 
-            <h1 className="text-6xl font-bold leading-tight text-black mb-6">
+            <h1 className="text-4xl md:text-6xl font-bold leading-tight text-black mb-6">
               Modern & Smooth <br /> Teaching Platform
             </h1>
 
@@ -30,8 +31,42 @@ export default function Home() {
               live classes with ease. Start today!
             </p>
             <div className="flex gap-5">
-              <StartLearningButton label="Start Now" />
-              <StartLearningButton label="Join Now" />
+              <Link
+                href="/meeting/join"
+                className="
+            bg-[#1C7262] 
+            text-white 
+            px-6 
+            py-2.5 
+            rounded-full 
+            font-medium 
+            cursor-pointer 
+            transition 
+            duration-200 
+            hover:bg-[#186658]
+            active:scale-95
+          "
+              >
+                Join Now
+              </Link>
+              <Link
+                href="/meeting/create"
+                className="
+            bg-[#1C7262] 
+            text-white 
+            px-6 
+            py-2.5 
+            rounded-full 
+            font-medium 
+            cursor-pointer 
+            transition 
+            duration-200 
+            hover:bg-[#186658]
+            active:scale-95
+          "
+              >
+                Start Now
+              </Link>
             </div>
           </div>
 
@@ -48,11 +83,12 @@ export default function Home() {
 
             {/* Floating Card 1 */}
             <motion.div
-              initial={{ opacity: 0, y:30 , x:30 }}
-              whileInView={{ opacity: 1, y: 0 , x:0 }}
+              initial={{ opacity: 0, y: 30, x: 30 }}
+              whileInView={{ opacity: 1, y: 0, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: false, amount: 0.3 }}
-            className="absolute -top-6 -left-4 bg-white shadow-md rounded-2xl px-12 py-8">
+              className="absolute -top-6 -left-4 bg-white shadow-md rounded-2xl px-12 py-8"
+            >
               <div className="flex items-center gap-2">
                 <span className="text-[#B7A96B] text-3xl">
                   <IoPeopleSharp />
@@ -66,8 +102,8 @@ export default function Home() {
 
             {/* Floating Card 2 */}
             <motion.div
-              initial={{ opacity: 0, y: 30 , x:-30 }}
-              whileInView={{ opacity: 1, y: 0 , x:0 }}
+              initial={{ opacity: 0, y: 30, x: -30 }}
+              whileInView={{ opacity: 1, y: 0, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: false, amount: 0.3 }}
               className="absolute top-10 -right-6 bg-white shadow-md rounded-2xl px-12 py-8"
@@ -171,7 +207,7 @@ export default function Home() {
             transition={{ duration: 1.0 }}
             viewport={{ once: false, amount: 0.3 }}
           >
-            <h2 className="text-6xl font-bold text-black mb-4">
+            <h2 className="text-4xl md:text-6xl font-bold text-black mb-4">
               About TechLive: <br /> Empowering Coders Worldwide
             </h2>
 
@@ -207,16 +243,16 @@ export default function Home() {
       </section>
       <section>
         <div className="w-full max-w-8xl relative bg-white py-25 flex justify-center">
-          <div className="flex justify-center gap-10 w-full max-w-7xl">
+          <div className="flex justify-center gap-10 w-full max-w-7xl overflow-x-scroll no-scrollbar px-6">
             {/* Card 1 */}
             <motion.div
-              initial={{ opacity: 0, x:-80 }}
+              initial={{ opacity: 0, x: -80 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 1.0 }}
               viewport={{ once: false, amount: 0.3 }}
               className="bg-[#e8efdf] w-90 mim-h-90 flex flex-col p-15 rounded-xl shadow-sm hover:shadow-md transition cursor-pointer "
             >
-              <div className="flex justify-center mb-6">
+              <div className="flex justify-center mb-3 lg:mb-6">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="#356a44"
@@ -227,7 +263,7 @@ export default function Home() {
                   <path d="M12 2L13.09 8.26L19 9.27L14.55 13.14L15.82 19.02L12 16.1L8.18 19.02L9.45 13.14L5 9.27L10.91 8.26L12 2Z" />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold text-center text-black mb-3">
+              <h2 className=" text-xl md:text-2xl font-bold text-center text-black mb-3">
                 Interactive Tools
               </h2>
               <p className="text-center text-gray-700">
@@ -242,9 +278,9 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.0 }}
               viewport={{ once: false, amount: 0.3 }}
-              className="bg-[#e8efdf] w-90 h-90 flex flex-col p-15 rounded-xl  shadow-sm hover:shadow-md transition cursor-pointer"
+              className="bg-[#e8efdf] w-90 h-90 flex flex-col p-[30px_60px_60px_60px] lg:p-15 rounded-xl  shadow-sm hover:shadow-md transition cursor-pointer"
             >
-              <div className="flex justify-center mb-6">
+              <div className="flex justify-center mb-3 lg:mb-6">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="#356a44"
@@ -255,7 +291,7 @@ export default function Home() {
                   <path d="M20 17V7H4v10h16zm0-12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h16zM7 14h2v2H7v-2zm0-4h2v2H7V10zm4 0h6v2h-6V10zm0 4h4v2h-4v-2z" />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold text-black text-center mb-3">
+              <h2 className="text-xl md:text-2xl font-bold text-black text-center mb-3">
                 Collaborative Coding
               </h2>
               <p className="text-center text-gray-700">

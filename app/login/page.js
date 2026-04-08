@@ -13,6 +13,9 @@ import Stack from "@mui/material/Stack";
 import { setAccessToken } from "@/lib/apiClient";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/store/userSlice";
+import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { set } from "mongoose";
 
 const Loginpage = () => {
   const route = useRouter();
@@ -26,7 +29,9 @@ const Loginpage = () => {
   const isDisabled = !form.email || !form.password || isLoading;
   const [Password_hidden, setPassword_hidden] = useState(true);
 
-  const dispatch =  useDispatch();
+  
+
+  const dispatch = useDispatch();
 
   function handleChange(e) {
     setMessage("");
@@ -68,7 +73,6 @@ const Loginpage = () => {
       } else {
         setStatus("success");
         dispatch(setUser(data.user));
-
       }
       setMessage(data.message);
 
@@ -83,6 +87,33 @@ const Loginpage = () => {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  // useEffect( () => {
+  //    setRefreshToken();
+  // }, [session]);
+
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session?.user?.email) {
+      fetch("/api/auth/set-refresh-token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: session.user.email,
+        }),
+      });
+    }
+  }, [session]);
+
+
+  async function handleGoogleSignIn() {
+    setIsLoading(true);
+    await signIn("google" , { callbackUrl: "/" });
+
   }
 
   // useEffect(() => {
@@ -129,7 +160,7 @@ const Loginpage = () => {
       {/* // left side // */}
       <div className="min-h-screen w-full md:w-[25vw] md:min-w-[380px] md:max-w-[470px] bg-white pl-12 pt-12 ">
         <div className="w-full h-full">
-          <Link href="/" className="text-2xl font-semibold text-black">
+          <Link href="/" className="text-2xl font-bold  text-black">
             VibeCodeLive
           </Link>
           <p className="text-[#4b8f89] text-3xl mt-8">Log in to your account</p>
@@ -213,14 +244,25 @@ const Loginpage = () => {
               <div className="w-[120px] border border-zinc-300 ml-2"></div>
             </div>
             <div className="mt-5">
-              <div className="w-[300px] h-12 border border-zinc-500 rounded-lg hover flex justify-center items-center text-zinc-600 gap-1 cursor-pointer ">
+              <button
+                onClick={handleGoogleSignIn}
+                className="w-[300px] h-12 border border-zinc-500 rounded-lg hover flex justify-center items-center text-zinc-600 gap-1 cursor-pointer "
+              >
                 <img
                   src="https://img.freepik.com/premium-vector/google-logo_1273375-1572.jpg?semt=ais_se_enriched&w=740&q=80"
                   alt=""
                   className="w-8 h-8"
                 />
                 Google
-              </div>
+              </button>
+              <div className="w-[300px] mt-5 h-12 border border-zinc-500 rounded-lg hover flex justify-center items-center text-zinc-600 gap-1 cursor-pointer ">
+              <img
+                src="https://github.blog/wp-content/uploads/2013/04/074d0b06-a5e3-11e2-8b7f-9f09eb2ddfae.jpg?resize=1234%2C701"
+                alt=""
+                className="w-10"
+              />
+              Github
+            </div>
             </div>
             {isLoading && (
               <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/35 backdrop-blur-[2px]">
@@ -241,7 +283,7 @@ const Loginpage = () => {
         </div>
       </div>
       {/* // right side // */}
-      <div className="min-h-screen grow bg-[#4b8f89] pl-10 relative overflow-y-scroll">
+      <div className="min-h-screen grow bg-[#4b8f89] pl-10 relative hidden md:block overflow-y-scroll">
         {/* // heading// */}
         <div className="">
           <div className="mt-8">

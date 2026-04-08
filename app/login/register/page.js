@@ -6,6 +6,9 @@ import Alert from "@mui/material/Alert";
 import { registerSchema } from "@/utils/registerSchema";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 const page = () => {
   const [form, setForm] = useState({
@@ -81,10 +84,38 @@ const page = () => {
     } finally {
       setisLoading(false);
     }
+  } 
+
+    const { data: session } = useSession();
+  
+    useEffect(() => {
+      if (session?.user?.email) {
+        fetch("/api/auth/set-refresh-token", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: session.user.email,
+          }),
+        });
+      }
+    }, [session]);
+
+  async function handleGoogleLogin() {
+    try {
+      setisLoading(true);
+      const res = await signIn("google", { callbackUrl: "/" });
+      
+    } catch (error) {
+      setStatus("error");
+      setMessage({ message: [error.message] });
+    }
+
   }
   return (
     <div className="min-h-screen w-screen overflow-hidden flex">
-      <div className="min-h-screen w-full md:w-[25vw] md:min-w-[380px] md:max-w-[470px] bg-[#4b8f89] pl-12 pr-3 pt-8 ">
+      <section className="min-h-screen w-full md:w-[25vw] md:min-w-[380px] md:max-w-[470px] bg-[#4b8f89] pl-12 pr-3 pt-8 md:block hidden ">
         <Link
           href="/"
           className="text-2xl font-semibold text-white tracking-wide"
@@ -162,8 +193,8 @@ const page = () => {
             Built for focus, clarity, and real collaboration.
           </div>
         </div>
-      </div>
-      <div className="min-h-screen grow  bg-white pl-10 relative overflow-y- flex flex-col">
+      </section>
+      <section className="min-h-screen grow  bg-white md:pl-10 relative pl-10  flex flex-col">
         <h1 className="text-3xl font-semibold text-[#4b8f89] mb-2 mt-8 ">
           Create Account
         </h1>
@@ -173,7 +204,7 @@ const page = () => {
             Login
           </Link>
         </p>
-        <div className="flex gap-5 relative">
+        <main className="flex gap-5 relative mb-5 flex-col xl:flex-row"> 
           <form onSubmit={handleSubmit} className="space-y-4 ">
             {/* Name */}
             <div>
@@ -274,37 +305,27 @@ const page = () => {
             >
               Register
             </button>
-
-            <div className="text-center w-[300px]">
-              <p className="text-zinc-600 text-xs">
-                Your information is safe with us. We respect your privacy.
-              </p>
-            </div>
-            <div className="mt-6 w-[300px] text-xs text-center text-zinc-600">
-              <ul>
-                <li className="flex gap-2">
-                  <span>
-                    After signing up, we’ll send a verification link to your
-                    email. Please verify to activate your account.
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </form>
-          <div className="flex flex-col items-center mx-3 text-zinc-500 text-sm mt-5">
-            <div className="h-[120px] border border-zinc-300 mb-2 "></div>
+            </form>
+           
+          
+          {/* Divider */}
+          <div className="flex flex-row xl:flex-col items-center mx-3 text-zinc-500 text-sm mt-3 lg:mt-5 ">
+            <div className="xl:h-[120px] w-[120px] xl:w-px border border-zinc-300 mr-2 xl:mr-0 xl:mb-2 "></div>
             Or
-            <div className="h-[120px] border border-zinc-300 mt-2 "></div>
+            <div className="xl:h-[120px] w-[120px] xl:w-px border border-zinc-300 ml-2 xl:ml-0 xl:mt-2 "></div>
           </div>
+          {/* OAuth Buttons and Messages */}
           <div className="mt-5">
-            <div className="w-[300px] h-12 border border-zinc-500 rounded-lg hover flex justify-center items-center text-zinc-600 gap-1 cursor-pointer ">
+            <button
+            onClick={handleGoogleLogin}
+            className="w-[300px] h-12 border border-zinc-500 rounded-lg hover flex justify-center items-center text-zinc-600 gap-1 cursor-pointer ">
               <img
                 src="https://img.freepik.com/premium-vector/google-logo_1273375-1572.jpg?semt=ais_se_enriched&w=740&q=80"
                 alt=""
                 className="w-8 h-8"
               />
               Google
-            </div>
+            </button>
             <div className="w-[300px] mt-5 h-12 border border-zinc-500 rounded-lg hover flex justify-center items-center text-zinc-600 gap-1 cursor-pointer ">
               <img
                 src="https://github.blog/wp-content/uploads/2013/04/074d0b06-a5e3-11e2-8b7f-9f09eb2ddfae.jpg?resize=1234%2C701"
@@ -319,7 +340,7 @@ const page = () => {
               className="mt-5 flex-1 overflow-y-auto"
             >
               {status == "success" && (
-                <Alert severity="success">{successMessage}</Alert>
+                <Alert severity="success">{message?.message}</Alert>
               )}
               {status == "error" && (
                 <>
@@ -342,8 +363,23 @@ const page = () => {
               </div>
             )}
           </div>
-        </div>
-      </div>
+        </main>
+            <div className="text-center w-[300px]">
+              <p className="text-zinc-600 text-xs">
+                Your information is safe with us. We respect your privacy.
+              </p>
+            </div>
+            <div className="mt-6 w-[300px] text-xs text-center text-zinc-600 mb-5">
+              <ul>
+                <li className="flex gap-2">
+                  <span>
+                    After signing up, we’ll send a verification link to your
+                    email. Please verify to activate your account.
+                  </span>
+                </li>
+              </ul>
+            </div>
+      </section>
     </div>
   );
 };

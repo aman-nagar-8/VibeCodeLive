@@ -8,7 +8,7 @@ export default function Navbar() {
     <nav className="w-full bg-[#eef2e6]">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-semibold text-black">
+        <Link href="/" className="text-2xl font-bold text-black">
           TechLive
         </Link>
         <div className="flex items-center gap-3 md:gap-8">
@@ -31,8 +31,24 @@ export default function Navbar() {
             </Link>
           </div>
 
+           {/* mobile nav links */}
+          <div className="flex md:hidden items-center gap-8 text-black text-[16px]">
+            {!user && (
+              <Link className="hover:text-[#1C7262] font-medium" href="/login">
+                Login
+              </Link>
+            )}
+
+            <Link className="hover:text-[#1C7262] font-medium" href="/about">
+              About
+            </Link>
+            <Link className="hover:text-[#1C7262] font-medium" href="/contact">
+              Contact
+            </Link>
+          </div>
+
           {/* Join Now Button */}
-          <Link
+          {/* <Link
             href="/meeting/join"
             className="
             bg-[#1C7262] 
@@ -67,7 +83,7 @@ export default function Navbar() {
           "
           >
             Start Now
-          </Link>
+          </Link> */}
           {user && <Profile user={user} />}
         </div>
       </div>

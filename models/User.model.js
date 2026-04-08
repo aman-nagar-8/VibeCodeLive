@@ -18,8 +18,13 @@ const UserSchema = new mongoose.Schema(
 
     password: {
       type: String,
-      required: true,
       select:false,
+    },
+
+    provider:{
+      type:String,
+      enum : ["credential","google"],
+      default:"credential"
     },
 
     meetingHistory: [

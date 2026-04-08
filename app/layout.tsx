@@ -21,8 +21,6 @@ export const metadata: Metadata = {
   },
 };
 
-//<meta name="google-site-verification" content="36c2_gS965wsrumHSor0n2bjd7AAsVCpDmo-Y2ezwNI" />
-
 export default function RootLayout({
   children,
 }: Readonly<{
