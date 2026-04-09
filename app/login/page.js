@@ -93,21 +93,21 @@ const Loginpage = () => {
   //    setRefreshToken();
   // }, [session]);
 
-  const { data: session } = useSession();
+  // const { data: session , process: status } = useSession();
 
-  useEffect(() => {
-    if (session?.user?.email) {
-      fetch("/api/auth/set-refresh-token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: session.user.email,
-        }),
-      });
-    }
-  }, [session]);
+  // useEffect(() => {
+  //   if (process === "authenticated" && session?.user?.email) {
+  //     fetch("/api/auth/set-refresh-token", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         email: session.user.email,
+  //       }),
+  //     });
+  //   }
+  // }, [session]);
 
 
   async function handleGoogleSignIn() {

@@ -17,6 +17,7 @@ export async function POST(req: Request) {
   }
 
   const refreshToken = generateRefreshToken(user);
+  const accessToken = generateAccessToken(user);
 
   await RefreshToken.create({
     userId: user._id,
@@ -27,6 +28,8 @@ export async function POST(req: Request) {
   const response = NextResponse.json({
        status: 200,
        message: "Login successful",
+       refreshToken,
+       accessToken,
        user: {
          id: user._id,
          name: user.name,
