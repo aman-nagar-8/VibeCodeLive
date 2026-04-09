@@ -1,9 +1,12 @@
+
+// not in use , now logic is in [...nextauth] route
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db.js";
 import User from "@/models/User.model.js";
 import { generateAccessToken, generateRefreshToken } from "@/lib/tokens";
 import { hashToken } from "@/lib/hashToken";
 import RefreshToken from "@/models/RefreshToken.js";
+
 
 export async function POST(req: Request) {
   await connectDB();
@@ -37,14 +40,14 @@ export async function POST(req: Request) {
        },
        success: true,
      });
-
-  response.cookies.set("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 24 * 7,
-  });
+     response.cookies.set("refreshToken", refreshToken, {
+       httpOnly: true,
+       secure: process.env.NODE_ENV === "production",
+       sameSite: "lax",
+       path: "/",
+       maxAge: 60 * 60 * 24 * 7,
+      });
+      console.log("response in set-refresh-token route", response);
 
   return response;
 }

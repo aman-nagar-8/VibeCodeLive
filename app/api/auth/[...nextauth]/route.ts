@@ -3,6 +3,10 @@ import GoogleProvider from "next-auth/providers/google";
 import { connectDB } from "@/lib/db.js";
 import User from "@/models/User.model.js";
 import { JWT } from "next-auth/jwt";
+import { cookies } from "next/headers";
+import { generateAccessToken, generateRefreshToken } from "@/lib/tokens";
+import { hashToken } from "@/lib/hashToken";
+import RefreshToken from "@/models/RefreshToken.js";
 
 const handler = NextAuth({
   providers: [
@@ -30,18 +34,37 @@ const handler = NextAuth({
       try {
         await connectDB();
         if (user) {
-          const res = await fetch(`${process.env.APP_URL}/api/auth/set-refresh-token`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email: user.email }),
+          // const res = await fetch(`${process.env.APP_URL}/api/auth/set-refresh-token`, {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //   },
+          //   body: JSON.stringify({ email: user.email }),
+          // });
+
+          // const data = await res.json();
+          const isUser = await User.findOne({ email: user.email });
+          
+          const refreshToken = generateRefreshToken(isUser);
+          const accessToken = generateAccessToken(isUser);
+
+          await RefreshToken.create({
+            userId: isUser._id,
+            tokenHash: hashToken(refreshToken),
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          });
+           
+          const cookiesList = await cookies();
+         await cookiesList.set("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "lax",
+            path: "/",
+            maxAge: 60 * 60 * 24 * 7,
           });
 
-          const data = await res.json();
-          token.accessToken = data.accessToken;
-          token.refreshToken = data.refreshToken;
-          token.userId = data.user.id;
+          token.accessToken = accessToken;
+          token.userId = isUser._id;
         }
 
         return token;
