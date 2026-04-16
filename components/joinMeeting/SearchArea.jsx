@@ -4,6 +4,7 @@ import { MeetingSuggestions } from "./MeetingSuggestions";
 import { EmptyState } from "@/components/joinMeeting/EmptyState";
 import { Activity } from "react";
 import { useState } from "react";
+import { debounce } from "@/utils/debounce.js";
 
 export function SearchArea() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -35,6 +36,8 @@ export function SearchArea() {
     }
   };
 
+  const debouncedSearchMeeting = debounce(searchMeeting, 1000);
+
   const showSuggestions = searchQuery.trim() && resultMeeting.length > 0;
   const showNoResults = searchQuery.trim() && resultMeeting.length === 0;
 
@@ -43,15 +46,18 @@ export function SearchArea() {
       <div className="relative">
         <div className="relative">
           <Search
-            onClick={() => {
-              searchMeeting();
-            }}
+            // onClick={() => {
+            //   searchMeeting();
+            // }}
             className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"
           />
           <input
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              debouncedSearchMeeting();
+            }}
             placeholder="Search for a meeting..."
             className="w-full pl-12 pr-4 py-4 bg-white border text-gray-700 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 shadow-sm hover:shadow-md"
           />
