@@ -2,7 +2,7 @@ import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
-import { connectDB } from "../lib/db.js";
+// import { connectDB } from "../lib/db.js";
 import Meeting from "../models/Meeting.js";
 import User from "../models/User.model.js";
 
@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
   console.log("User connected:", socket.data.userId);
 
   socket.on("join-meeting", async ({ meetingId }, ack) => {
-    await connectDB();
+    // await connectDB();
     // const meeting = await Meeting.findById(meetingId);
 
     // optional: check membership

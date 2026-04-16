@@ -26,8 +26,9 @@ const Base = ({
   right: React.ReactNode;
 }) => {
     const { id } = useParams<{ id: string }>();
-
-  const leftNavArray = [
+ 
+  // this is left side nav links array
+  const rightNavArray = [
     {
       title: "Code",
       icon: <RiCodeSSlashLine className="text-green-500" />,
@@ -38,28 +39,29 @@ const Base = ({
       title: "WhiteBoard",
       icon: <BsClipboard2 className="text-zinc-300 " />,
       className: "",
-      href: "/meeting/member/11/whiteboard",
+      href: `/meeting/member/${id}/whiteboard`,
     },
     {
       title: "Resourses",
       icon: <HiOutlineBookOpen className="text-blue-500" />,
       className: "",
-      href: "/meeting/member/11/resourses",
+      href: `/meeting/member/${id}/resourses`,
     },
     {
       title: "Problems",
       icon: <GoQuestion className="text-red-500" />,
       className: "",
-      href: "/meeting/member/11/problems",
+      href: `/meeting/member/${id}/problems`,
     },
   ];
 
-  const rightNavArray = [
+
+  const leftNavArray = [
     {
       title: "Code",
       icon: <RiCodeSSlashLine className="text-green-500" />,
       className: "",
-      href: "/meeting/member/11/user-code",
+      href: `/meeting/member/${id}/user-code`,
     },
     {
       title: "Members",
@@ -71,19 +73,19 @@ const Base = ({
       title: "Comments",
       icon: <VscComment className="text-blue-500" />,
       className: "",
-      href: "/meeting/member/11/comments",
+      href: `/meeting/member/${id}/comments`,
     },
     {
       title: "Notes",
       icon: <TbNotes className="text-red-500" />,
       className: "",
-      href: "/meeting/member/11/notes",
+      href: `/meeting/member/${id}/notes`,
     },
     {
       title: "About",
       icon: <IoIosInformationCircleOutline className="text-[#08b5a6]" />,
       className: "",
-      href: "/meeting/member/11/about",
+      href: `/meeting/member/${id}/about`,
     },
   ];
 
@@ -132,6 +134,7 @@ const Base = ({
   const dispatch = useDispatch();
   const router = useRouter();
 
+  // connect socket user effect
   useEffect(() => {
     const token = sessionStorage.getItem("socketAuth");
 
@@ -148,7 +151,7 @@ const Base = ({
   return (
     <Split
       className="flex h-full w-full overflow-hidden"
-      sizes={[50, 50]}
+      sizes={[75, 25]}
       minSize={[400, 200]}
       expandToMin={false}
       gutterSize={10}
@@ -176,7 +179,7 @@ const Base = ({
       {/* right part */}
       <div className="rounded-lg flex flex-col overflow-hidden h-full">
         <div className="w-full h-9 shrink-0 bg-[#333333] rounded-t-lg p-1 flex items-center border-x-[0.5px] border-t-[0.5px] border-zinc-600 gap-1 overflow-x-scroll no-scrollbar text-zinc-400">
-          {rightNavArray.map((link, index) => (
+          {/* {rightNavArray.map((link, index) => (
             <Nav_Link
               key={index}
               title={link.title}
@@ -184,8 +187,9 @@ const Base = ({
               className={link.className}
               href={link.href}
             />
-          ))}
+          ))} */}
         </div>
+        {/* this is in left side  */}
         <div className="flex-1 min-h-0">{right}</div>
       </div>
     </Split>
