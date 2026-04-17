@@ -113,14 +113,50 @@ Creates a new session for teacher
 
 Request Body:
 {
-  "teacherId": "123"
+  "meetingId": "123"
+},
+authHeader: authorization `ACCESS TOKEN`
+
+Response:
+{
+      success: true,
+      socketAuth,
+      message: "User added to meeting",
+      status: 200,
+}
+
+### POST /meeting/getCurrentMeeting
+
+Description:
+Return meeting by meeting name or url
+
+Request Body:
+{
+  "query": "meeting_name",
 }
 
 Response:
 {
-  "sessionId": "abc123"
+        success: true,
+        message: "Meetings fetched successfully",
+        result: meetings,
 }
 
-next..
-meeting/getCurrentMeeting
-/run
+### POST /run
+
+Description:
+Give output of a source code
+
+Request Body:
+{
+  code: {...},
+  language_id: 12,
+  input: [],
+}
+
+Response:
+{
+        source_code: code,
+        language_id,
+        stdin: input,
+}
