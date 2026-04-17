@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## What is thi project
+A platfrom that work as a interface between student and teacher and monitor student behavior in real time using AI.
 
-## Getting Started
+## Features
+- Live coding session
+- Student activity traking and suggestion
+- student summery for teacher
+- AI based evaluation
 
-First, run the development server:
+## Tech Stack
+- Next.js
+- MongoDB
+- Redux
+- Socket.io
 
-```bash
+## Setup Instructions
+git clone https://github.com/aman-nagar-8/VibeCodeLive.git
+cd VibeCodeLive
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Start Socket Server
+cd socket
+npm run start
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Folder Structure 
+VibeCodeLive
+├── app/
+    ├── api/
+        ├── auth/
+        ├── createmeeting/
+        ├── getmeeting/
+        ├── getUser/
+        ├── joinmeeting/
+        ├── login/
+            ├── refresh/
+            ├── register/
+            ├── verify-email/
+        ├── meeting/
+            ├── getCurrentMeeting/
+        ├── run/
+    ├── login/
+        ├── register/
+            ├── VerifyEmail/
+    ├── meeting/
+        ├── admin/
+        ├── create/
+        ├── join/
+        ├── member/
+├── components/
+    ├── admin/
+    ├── home/
+    ├── joinMeeting/
+    ├── Member/
+├── lib/
+├── models/
+├── store/
+├── utils/
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Socket Folder Structure
+Socket
+├── src/
+    ├── socket/
+├── server/
 
-## Learn More
+## Data Flow 
 
-To learn more about Next.js, take a look at the following resources:
+1. Teacher creates a session
+2. Student joins session
+3. Student writes code
+4. Events are captured (typing, paste, errors)
+5. Backend processes data
+6. AI generates score
+7. Teacher dashboard displays results
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
