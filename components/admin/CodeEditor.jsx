@@ -2,122 +2,21 @@
 import Split from "react-split";
 import { BsFileCode } from "react-icons/bs";
 import Editor from "@monaco-editor/react";
-import { useState } from "react";
+import { useState , useRef } from "react";
 import { beforeMount } from "@/utils/Editor_Customization";
 import { LuTriangle } from "react-icons/lu";
 import { AiOutlineAlignLeft } from "react-icons/ai";
 import { IoBookmarkOutline } from "react-icons/io5";
 import { IoReload } from "react-icons/io5";
-import { useEffect, useRef , useCallback } from "react";
-import { useStudentTracking , getReport } from "./UseStudentTracking.js";
 
 
 const Code = () => {
   const [Code, setCode] = useState("");
+  const runCode = async () => {};
+  const handleEditorMount = (editor, monaco) => {};
+  const outputRef = useRef(null);
   const [Output, setOutput] = useState([]);
   const [CodeCompiling, setCodeCompiling] = useState(false);
-  const [messageArray, setMessageArray] = useState([{}]);
-
-  const outputRef = useRef(null);
-
-  useEffect(() => {
-    outputRef.current?.scrollTo({
-      top: outputRef.current.scrollHeight,
-      behavior: "smooth",
-    });
-  }, [CodeCompiling]);
-
-  async function runCode() {
-    setCodeCompiling(true);
-    const res = await fetch("/api/run", {
-      method: "POST",
-      body: JSON.stringify({
-        code: Code,
-        language_id: 63, // JavaScript
-        input: "",
-      }),
-    });
-
-    const result = await res.json();
-    setCodeCompiling(false);
-    setOutput((prev) => [
-      ...prev,
-      {
-        Data:
-          result.stdout ||
-          result.stderr ||
-          result.compile_output ||
-          "No output",
-        time: new Date().toLocaleTimeString(),
-        type: result.stderr || result.compile_output ? "error" : "success",
-      },
-    ]);
-  }
-
-
-const REFERENCE_CODE = `
-def add(a, b):
-    return a + b
-
-print(add(2, 3))
-`.trim();
-
-
-
-    // ── Hook: initialise student tracking ────────────────────────────────────
-  const { getReport, attachMonacoListeners } = useStudentTracking({
-    studentId: "student_42",        // 👈 replace with real auth session user id
-    assignmentId: "assignment_07",  // 👈 replace with current assignment id
-    code: Code,
-    output: Output,
-    referenceCode: REFERENCE_CODE,  // optional — remove if not needed
-
-    // Called every time a flag is raised
-    onFlag: (flagEvent) => {
-      console.log("FLAG RAISED:", flagEvent);
-
-      // Send to your backend / analytics
-      fetch("/api/meeting/snapShot", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(flagEvent),
-      }).then( (res) => {
-        const data =  res.json();
-        console.log("Flag event sent successfully:", data);
-      }).catch(() => {});
-
-      // Optional: show a soft hint to the student for certain flags
-      if (flagEvent.type === "STUCK_ON_LINE") {
-        console.info("💡 Hint: student stuck on line", flagEvent.line);
-      }
-      if (flagEvent.type === "IDLE_TOO_LONG") {
-        console.info("💡 Hint: student has been idle for 3+ minutes");
-      }
-    },
-
-    // Called every 30 seconds with a code snapshot
-    onSnapshot: (snapshot) => {
-      fetch("/api/meeting/snapShot", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(snapshot),
-      }).then(async(res)=> {
-        const data = await res.json();
-        console.log("Snapshot sent successfully:", data);
-      }).catch(() => {});
-    },
-  });
-
-    // ── Monaco onMount: attach all listeners ─────────────────────────────────
-  const handleEditorMount = useCallback((editor) => {
-    attachMonacoListeners(editor);
-  }, [attachMonacoListeners]);
-
-  // ── Dev helper: log the full session report ───────────────────────────────
-  const handleShowReport = () => {
-    console.table(getReport());
-  };
-
   return (
     <Split
       className="h-full w-full overflow-hidden"

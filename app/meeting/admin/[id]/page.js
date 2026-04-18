@@ -1,6 +1,6 @@
 "use client"
 // import { div } from "framer-motion/client";
-import SimpleCode from "@/components/admin/SimpleCode.js";
+import Base from "@/components/admin/Base.jsx";
 
 // export default async function MeetingPage({ params, searchParams }) {
 //   const meetingId =  params.meeting;
@@ -19,7 +19,7 @@ const page = () => {
   const searchParams = useSearchParams();
   const meetingId = searchParams.get('meeting');
   const token = searchParams.get('token');
-  return <SimpleCode meetingId={meetingId} token={token} />;
+  return <Base  />;
   // return <MeetingClient meetingId={meetingId} token={token} />;
 }
 
