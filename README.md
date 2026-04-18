@@ -14,10 +14,10 @@ A platfrom that work as a interface between student and teacher and monitor stud
 - Socket.io
 
 ## Setup Instructions
-git clone https://github.com/aman-nagar-8/VibeCodeLive.git
-cd VibeCodeLive
-npm install
-npm run dev
+- git clone https://github.com/aman-nagar-8/VibeCodeLive.git
+- cd VibeCodeLive
+- npm install
+- npm run dev
 
 ## Start Socket Server
 cd socket
