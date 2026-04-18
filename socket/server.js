@@ -3,15 +3,15 @@ import http from "http";
 import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
 // import { connectDB } from "../lib/db.js";
-import Meeting from "../models/Meeting.js";
-import User from "../models/User.model.js";
+// import Meeting from "../models/Meeting.js";
+// import User from "../models/User.model.js";
 
 const app = express();
 const httpServer = http.createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000" , process.env.CLIENT_URL],
     credentials: true,
   },
 });
