@@ -24,4 +24,8 @@ export default function registerMeetingHandlers({ io, socket }) {
       socketId: socket.id,
     });
   });
+  socket.on("code-snapshot", ({ meetingId, snapshot }) => {
+    console.log(`Code snapshot for meeting ${meetingId}:`, snapshot , "from user:", socket.user.id); ;
+    io.to(meetingId).emit("receive-code-snapshot", { snapshot, from: socket.user.id });
+  });
 }

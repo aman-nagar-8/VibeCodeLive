@@ -13,7 +13,7 @@ const CONFIG = {
   SAME_LINE_REPEAT_THRESHOLD: 5, // same line edited 5+ times → stuck on line
   SAME_ERROR_REPEAT_THRESHOLD: 3, // same error 3+ times → stuck on error
   HIGH_ERROR_RATE_THRESHOLD: 5, // 5+ errors per session → struggling
-  SNAPSHOT_INTERVAL_MS: 30 * 1000, // code snapshot every 30s
+  SNAPSHOT_INTERVAL_MS: 2 * 60 * 1000, // code snapshot every 2 min
   LINE_FLAT_DURATION_MS: 5 * 60 * 1000, // 5 min no line-count growth → stuck
   SIMILARITY_THRESHOLD: 0.85, // 85% match to reference → copied
 };

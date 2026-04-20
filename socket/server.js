@@ -83,6 +83,12 @@ io.on("connection", (socket) => {
     });
   });
 
+  socket.on("code-snapshot", ({ meetingId, snapshot }) => {
+    console.log(`Code snapshot for meeting ${meetingId}:`, snapshot);
+    io.to(meetingId).emit("receive-code-snapshot", { snapshot, from: socket.data.username });
+  });
+
+
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.data.userId);
   });

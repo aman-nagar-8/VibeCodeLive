@@ -8,9 +8,10 @@ import { LuTriangle } from "react-icons/lu";
 import { AiOutlineAlignLeft } from "react-icons/ai";
 import { IoBookmarkOutline } from "react-icons/io5";
 import { IoReload } from "react-icons/io5";
-import { useEffect, useRef , useCallback } from "react";
-import { useStudentTracking , getReport } from "./UseStudentTracking.js";
-
+import { useEffect, useRef, useCallback } from "react";
+import { useStudentTracking, getReport } from "./UseStudentTracking.js";
+import { sendCodeSnapshot } from "@/lib/socketService";
+import { useParams } from "next/navigation.js";
 
 const Code = () => {
   const [Code, setCode] = useState("");
@@ -19,6 +20,7 @@ const Code = () => {
   const [messageArray, setMessageArray] = useState([{}]);
 
   const outputRef = useRef(null);
+    const { id } = useParams();
 
   useEffect(() => {
     outputRef.current?.scrollTo({
@@ -54,23 +56,20 @@ const Code = () => {
     ]);
   }
 
-
-const REFERENCE_CODE = `
+  const REFERENCE_CODE = `
 def add(a, b):
     return a + b
 
 print(add(2, 3))
 `.trim();
 
-
-
-    // ── Hook: initialise student tracking ────────────────────────────────────
+  // ── Hook: initialise student tracking ────────────────────────────────────
   const { getReport, attachMonacoListeners } = useStudentTracking({
-    studentId: "student_42",        // 👈 replace with real auth session user id
-    assignmentId: "assignment_07",  // 👈 replace with current assignment id
+    studentId: "student_42", // 👈 replace with real auth session user id
+    assignmentId: "assignment_07", // 👈 replace with current assignment id
     code: Code,
     output: Output,
-    referenceCode: REFERENCE_CODE,  // optional — remove if not needed
+    referenceCode: REFERENCE_CODE, // optional — remove if not needed
 
     // Called every time a flag is raised
     onFlag: (flagEvent) => {
@@ -81,10 +80,13 @@ print(add(2, 3))
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(flagEvent),
-      }).then( (res) => {
-        const data =  res.json();
-        console.log("Flag event sent successfully:", data);
-      }).catch(() => {});
+      })
+        .then((res) => {
+          const data = res.json();
+          console.log("Flag event sent successfully:", data);
+
+        })
+        .catch(() => {});
 
       // Optional: show a soft hint to the student for certain flags
       if (flagEvent.type === "STUCK_ON_LINE") {
@@ -95,23 +97,30 @@ print(add(2, 3))
       }
     },
 
-    // Called every 30 seconds with a code snapshot
+    // Called every 2 min with a code snapshot
     onSnapshot: (snapshot) => {
       fetch("/api/meeting/snapShot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(snapshot),
-      }).then(async(res)=> {
-        const data = await res.json();
-        console.log("Snapshot sent successfully:", data);
-      }).catch(() => {});
+      })
+        .then(async (res) => {
+          const data = await res.json();
+          console.log("Snapshot sent successfully:", data);
+          // Also send snapshot to other meeting participants via socket
+          sendCodeSnapshot(id, data.snapshot);
+        })
+        .catch(() => {});
     },
   });
 
-    // ── Monaco onMount: attach all listeners ─────────────────────────────────
-  const handleEditorMount = useCallback((editor) => {
-    attachMonacoListeners(editor);
-  }, [attachMonacoListeners]);
+  // ── Monaco onMount: attach all listeners ─────────────────────────────────
+  const handleEditorMount = useCallback(
+    (editor) => {
+      attachMonacoListeners(editor);
+    },
+    [attachMonacoListeners],
+  );
 
   // ── Dev helper: log the full session report ───────────────────────────────
   const handleShowReport = () => {
@@ -204,7 +213,12 @@ print(add(2, 3))
             Output
           </div>
           <div>
-            <div onClick={()=>{setOutput([])}} className="flex justify-center  items-center group relative mr-2 rounded-md cursor-pointer">
+            <div
+              onClick={() => {
+                setOutput([]);
+              }}
+              className="flex justify-center  items-center group relative mr-2 rounded-md cursor-pointer"
+            >
               <IoReload className="group-hover:text-zinc-300" />
               <span className="absolute bottom--[5px] mr-2 z-10 right-full bg-zinc-900 text-white text-xs px-3 py-1.5 rounded hidden group-hover:block transition whitespace-nowrap">
                 Clear output

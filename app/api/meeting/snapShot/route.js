@@ -18,6 +18,7 @@ export async function POST(req) {
     const { report, code, output, studentName } = body;
 
     if (!report || !code) {
+      console.log("Missing report or code in request body:", code);
       return NextResponse.json({ error: "Missing report or code" }, { status: 400 });
     }
 

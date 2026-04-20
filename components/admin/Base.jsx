@@ -2,8 +2,34 @@ import React from "react";
 import Split from "react-split";
 import CodeEditor from "./CodeEditor";
 import Members from "./Member";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { connectSocket, joinMeeting } from "@/lib/socketService";
+import { useEffect  } from "react";
+import { setMeetingId } from "@/store/meetingSlice";
+import { useParams } from "next/navigation";
 
 const base = () => {
+  const { id } = useParams();
+   
+
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  // connect socket user effect
+  useEffect(() => {
+    const token = sessionStorage.getItem("socketAuth");
+
+    if (!token) {
+      router.replace("/meeting/join");
+      return;
+    }
+
+    connectSocket(token);
+    dispatch(setMeetingId(id));
+    joinMeeting(id);
+  }, [id, dispatch, router]);
+
   return (
 
       <Split

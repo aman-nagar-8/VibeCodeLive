@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Api from "@/lib/apiClient";
 import { ca } from "zod/v4/locales";
+import { useRouter } from "next/navigation";
 
 export default function CreateMeeting() {
   const [meetingName, setMeetingName] = useState("");
@@ -11,6 +12,7 @@ export default function CreateMeeting() {
   const [requiredField, setRequiredField] = useState("");
   const [requiredFields, setRequiredFields] = useState([]);
   const [message, setmessage] = useState("")
+  const router = useRouter();
 
   const addField = () => {
     if (
@@ -26,12 +28,12 @@ export default function CreateMeeting() {
     setRequiredFields(requiredFields.filter((f) => f !== field));
   };
 
-  const handleCreateMeeting = () => {
+  const handleCreateMeeting = async () => {
     if (!meetingName.trim() || !meetingURL.trim()) {
       return;
     }
     try {
-      const res = Api.post("/createmeeting", {
+      const res = await Api.post("/createmeeting", {
         name: meetingName,
         url: meetingURL,
         joinPolicy:
@@ -43,10 +45,20 @@ export default function CreateMeeting() {
         status: status,
         requiredFields: requiredFields,
       });
-        const data = res.data;
+        const data = await res.data;
+        console.log("Create Meeting Response:", data);
         setmessage("Meeting created successfully! Redirecting...");
+        if(data.success){
+           sessionStorage.setItem("socketAuth", data.socketAuth);
+          setTimeout(() => {
+            router.push(`/meeting/admin/${data.meeting._id}`);
+          }, 2000);
+        }
 
-    } catch (error) {}
+    } catch (error) {
+      setmessage("Error creating meeting. Please try again.");
+      console.error("Create Meeting Error:", error);
+    }
   };
 
   return (
@@ -168,7 +180,7 @@ export default function CreateMeeting() {
             ))}
           </div>
         </div>
-
+        {message}
         {/* Action */}
         <button
           onClick={() => handleCreateMeeting()}

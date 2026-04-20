@@ -4,7 +4,8 @@ import {
   userJoined,
   userLeft,
   setConnectionStatus,
-  setParticipants
+  setParticipants,
+  updateSnapshot
 } from "@/store/meetingSlice";
 
 let socket: Socket | null = null;
@@ -37,11 +38,22 @@ export function connectSocket(token: string) {
     store.dispatch(userLeft(data.userId));
   });
 
+  socket.on("receive-code-snapshot", ({ snapshot, from }) => {
+    console.log("Received code snapshot from user", from, ":", snapshot);
+    store.dispatch(updateSnapshot({ userId: from, snapshot }));
+  });
+
+
   return socket;
 }
 
 export function joinMeeting(meetingId: string) {
   socket?.emit("join-meeting", { meetingId });
+}
+
+export function sendCodeSnapshot(meetingId: string, snapshot: any) {
+  console.log("Sending code snapshot for meeting", meetingId, ":", snapshot);
+  socket?.emit("code-snapshot", { meetingId, snapshot });
 }
 
 export function disconnectSocket() {
