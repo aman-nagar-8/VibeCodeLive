@@ -9,6 +9,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
+import Image from "next/image";
 
 const page = () => {
   const [form, setForm] = useState({
@@ -114,7 +115,7 @@ const page = () => {
 
   }
   return (
-    <div className="min-h-screen w-screen overflow-hidden flex">
+    <div className="min-h-screen w-screen overflow-hidden relative flex bg-white">
       <section className="min-h-screen w-full md:w-[25vw] md:min-w-[380px] md:max-w-[470px] bg-[#4b8f89] pl-12 pr-3 pt-8 md:block hidden ">
         <Link
           href="/"
@@ -194,7 +195,7 @@ const page = () => {
           </div>
         </div>
       </section>
-      <section className="min-h-screen grow  bg-white md:pl-10 relative pl-10  flex flex-col">
+      <section className="min-h-screen grow  bg-white md:pl-10 relative pl-10  flex flex-col ">
         <h1 className="text-3xl font-semibold text-[#4b8f89] mb-2 mt-8 ">
           Create Account
         </h1>
@@ -379,6 +380,9 @@ const page = () => {
                 </li>
               </ul>
             </div>
+      </section>
+      <section className="hidden  2xl:flex h-screen items-end ">
+         <Image src="/tree-image01.png" alt="Description" width={500} height={300} className="absolute bottom-0 right-0" />
       </section>
     </div>
   );
