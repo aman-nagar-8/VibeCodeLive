@@ -15,7 +15,7 @@ export interface Snapshot {
 }
 
 export interface Participant {
-  userId: string;
+  id: string;
   username: string;
   snapshot?: Snapshot;
 }

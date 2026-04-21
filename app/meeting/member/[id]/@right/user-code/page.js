@@ -76,17 +76,17 @@ print(add(2, 3))
       console.log("FLAG RAISED:", flagEvent);
 
       // Send to your backend / analytics
-      fetch("/api/meeting/snapShot", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(flagEvent),
-      })
-        .then((res) => {
-          const data = res.json();
-          console.log("Flag event sent successfully:", data);
+      // fetch("/api/meeting/snapShot", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(flagEvent),
+      // })
+      //   .then((res) => {
+      //     const data = res.json();
+      //     console.log("Flag event sent successfully:", data);
 
-        })
-        .catch(() => {});
+      //   })
+      //   .catch(() => {});
 
       // Optional: show a soft hint to the student for certain flags
       if (flagEvent.type === "STUCK_ON_LINE") {

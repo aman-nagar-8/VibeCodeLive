@@ -120,7 +120,7 @@ const UserCard = ({ userId }) => {
             <span className="text-white text-sm font-medium">
               {user.username}
             </span>
-            <span className="text-gray-400 text-xs">{user.username}</span>
+            <span className="text-gray-400 text-xs">{user.id}</span>
           </div>
         </div>
 
@@ -173,7 +173,7 @@ const UserCard = ({ userId }) => {
                   </div>
 
                   <div>
-                    <S></S>: {snapshot.score} | ⌫:{" "}
+                    {snapshot.score}
                     {/* {snapshot.report.backspaces} */}
                   </div>
 

@@ -46,43 +46,43 @@ const meetingSlice = createSlice({
     // ➕ User joined
     userJoined(
       state,
-      action: PayloadAction<{ userId: string; username: string }>
+      action: PayloadAction<{ id: string; username: string }>
     ) {
       const user = action.payload;
 
-      if (!state.participants.byId[user.userId]) {
-        state.participants.byId[user.userId] = {
+      if (!state.participants.byId[user.id]) {
+        state.participants.byId[user.id] = {
           ...user,
           snapshot: undefined,
         };
-        state.participants.allIds.push(user.userId);
+        state.participants.allIds.push(user.id);
       }
     },
 
     // ❌ User left
     userLeft(state, action: PayloadAction<string>) {
-      const userId = action.payload;
+      const id = action.payload;
 
-      delete state.participants.byId[userId];
+      delete state.participants.byId[id];
       state.participants.allIds = state.participants.allIds.filter(
-        (id) => id !== userId
+        (id) => id !== id
       );
     },
 
     // 🔄 Set participants (bulk)
     setParticipants(
       state,
-      action: PayloadAction<{ userId: string; username: string }[]>
+      action: PayloadAction<{ id: string; username: string }[]>
     ) {
       state.participants.byId = {};
       state.participants.allIds = [];
 
       action.payload.forEach((user) => {
-        state.participants.byId[user.userId] = {
+        state.participants.byId[user.id] = {
           ...user,
           snapshot: undefined,
         };
-        state.participants.allIds.push(user.userId);
+        state.participants.allIds.push(user.id);
       });
     },
 

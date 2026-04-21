@@ -27,6 +27,7 @@ export function connectSocket(token: string) {
   });
 
   socket.on("meeting-members", (members) => {
+    console.log("Received meeting members:", members);
     store.dispatch(setParticipants(members));
   });
 

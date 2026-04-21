@@ -11,7 +11,7 @@ export default function registerMeetingHandlers({ io, socket }) {
         const s = io.sockets.sockets.get(socketId);
         if (s?.user) {
           members.push({
-            userId: s.user.userId,
+            id: s.user.id,
             username: s.user.username,
           });
         }
@@ -19,6 +19,7 @@ export default function registerMeetingHandlers({ io, socket }) {
     }
     socket.emit("meeting-members", members);
 
+    console.log("user joined meeting room : ", socket.user);
     socket.to(meetingId).emit("user-joined", {
       user: socket.user,
       socketId: socket.id,
