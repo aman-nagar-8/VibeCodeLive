@@ -44,7 +44,7 @@ export function MeetingDetailsCard() {
     setsuccess("Joined meeting successfully!");
     // redirect to meeting page
     sessionStorage.setItem("socketAuth", data.socketAuth);
-    router.push(`/meeting/member/${meeting._id}`);
+    router.push(`${data.meetingUrl}`);
 
     try {
     } catch (error) {

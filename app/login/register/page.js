@@ -381,7 +381,7 @@ const page = () => {
               </ul>
             </div>
       </section>
-      <section className="hidden  2xl:flex h-screen items-end ">
+      <section className="hidden  2xl:flex h-screen items-end z-10">
          <Image src="/tree-image01.png" alt="Description" width={500} height={300} className="absolute bottom-0 right-0" />
       </section>
     </div>
