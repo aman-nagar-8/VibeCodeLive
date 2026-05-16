@@ -251,7 +251,7 @@ export function useStudentTracking({
       checkLineFlatness();
       checkBackspaceRatio();
       checkZeroKeystrokeRatio();
-      onSnapshot(snapshot);
+      onSnapshot();
     }, CONFIG.SNAPSHOT_INTERVAL_MS);
 
     return () => clearInterval(s.snapshotTimer);

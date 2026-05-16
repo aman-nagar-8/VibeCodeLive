@@ -98,7 +98,10 @@ print(add(2, 3))
     },
 
     // Called every 2 min with a code snapshot
-    onSnapshot: (snapshot) => {
+    onSnapshot: () => {
+      const snapshot = getReport(); // get the full session report at this moment
+      snapshot.code = Code; // add current code to the snapshot
+
       fetch("/api/meeting/snapShot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -126,6 +129,8 @@ print(add(2, 3))
   const handleShowReport = () => {
     console.table(getReport());
   };
+
+  // solve flag problem of repeated flags object for same flag just update count not push new flag object in flags array
 
   return (
     <Split
