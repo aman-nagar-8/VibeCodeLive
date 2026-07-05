@@ -10,7 +10,7 @@
 
 import { NextResponse } from "next/server";
 import { buildSessionSummary, buildAIPrompt } from "@/utils/sessionSummary"; // adjust path
-import { buildBehaviorContext , analyzeWithClaude } from "./util"; // adjust path
+import { buildBehaviorContext, analyzeWithClaude } from "./util"; // adjust path
 // import { getSocketServer } from "@/lib/socket"; // have to be updated cause it is not in same folder                            // adjust path
 
 export async function POST(req) {
@@ -37,57 +37,73 @@ export async function POST(req) {
       code,
     } = body;
 
+    // Step 2  Build the summary point from flags, behavior, code, output, and student info
+    const { status, label, contextLines } = buildBehaviorContext(body);
 
-      // Step 2  Build the summary point from flags, behavior, code, output, and student info
-  const { status, label, contextLines } = buildBehaviorContext(body);
+    // Step 3 analyze code , output for given assignment using claude API and get a score and label
+    // const aiResult = await analyzeWithClaude(
+    //   studentName, assignmentId, contextLines, code, latestOutput
+    // );
 
-  // Step 3 analyze code , output for given assignment using claude API and get a score and label
-  // const aiResult = await analyzeWithClaude(
-  //   studentName, assignmentId, contextLines, code, latestOutput
-  // );
+    const aiResult = [
+      {
+        score: 68,
+        status: "success",
+        summary: {
+          whatStudentDid:
+            "The student wrote a partial solution, tested the program multiple times, and made incremental progress on the assignment.",
+          struggling:
+            "The student appears to be struggling with debugging logic errors and maintaining focus due to several tab switches.",
+          doingWell:
+            "The student is actively coding and attempting to validate their solution through repeated execution.",
+          suspiciousBehavior: null,
+          adviceForTeacher:
+            "Check whether the student understands the core algorithm and encourage them to debug step-by-step.",
+        },
+      },
+      {
+        score: 24,
+        status: "error",
+        summary: {
+          whatStudentDid:
+            "The student opened the assignment but wrote very little original code and remained mostly inactive.",
+          struggling:
+            "The student does not appear to understand how to begin the assignment.",
+          doingWell: null,
+          suspiciousBehavior:
+            "Frequent tab switching and sudden pasted code suggest possible copying from external sources.",
+          adviceForTeacher:
+            "Consider checking in directly with the student to assess understanding and verify authorship of the code.",
+        },
+      },
+      {
+        score: 91,
+        status: "success",
+        summary: {
+          whatStudentDid:
+            "The student completed the assignment with clean code and successful program output after consistent development activity.",
+          struggling: null,
+          doingWell:
+            "The student demonstrated strong problem-solving habits by iteratively testing and refining the solution.",
+          suspiciousBehavior: null,
+          adviceForTeacher:
+            "The student appears confident and engaged, so a quick review of code quality and optimization may be beneficial.",
+        },
+      },
+    ];
 
-
-  const aiResult = [{
-  "score": 68,
-  "summary": {
-    "whatStudentDid": "The student wrote a partial solution, tested the program multiple times, and made incremental progress on the assignment.",
-    "struggling": "The student appears to be struggling with debugging logic errors and maintaining focus due to several tab switches.",
-    "doingWell": "The student is actively coding and attempting to validate their solution through repeated execution.",
-    "suspiciousBehavior": null,
-    "adviceForTeacher": "Check whether the student understands the core algorithm and encourage them to debug step-by-step."
-  }
-},{
-  "score": 24,
-  "summary": {
-    "whatStudentDid": "The student opened the assignment but wrote very little original code and remained mostly inactive.",
-    "struggling": "The student does not appear to understand how to begin the assignment.",
-    "doingWell": null,
-    "suspiciousBehavior": "Frequent tab switching and sudden pasted code suggest possible copying from external sources.",
-    "adviceForTeacher": "Consider checking in directly with the student to assess understanding and verify authorship of the code."
-  }
-},{
-  "score": 91,
-  "summary": {
-    "whatStudentDid": "The student completed the assignment with clean code and successful program output after consistent development activity.",
-    "struggling": null,
-    "doingWell": "The student demonstrated strong problem-solving habits by iteratively testing and refining the solution.",
-    "suspiciousBehavior": null,
-    "adviceForTeacher": "The student appears confident and engaged, so a quick review of code quality and optimization may be beneficial."
-  }
-}]
-
-  // Step 4 Build the final snapshot object to be sent to teacher dashboard
-  const snapshot = {
-    studentId,
-    studentName: studentName ?? 'Unknown',
-    assignmentId,
-    status,
-    label,
-    contextLines,
-    score: aiResult.score,
-    summary: aiResult.summary,
-    generatedAt: new Date().toISOString()
-  };
+    // Step 4 Build the final snapshot object to be sent to teacher dashboard
+    const snapshot = {
+      studentId,
+      studentName: studentName ?? "Unknown",
+      assignmentId,
+      status,
+      label,
+      contextLines,
+      score: aiResult[0].score,
+      summary: aiResult[0].summary,
+      generatedAt: new Date().toISOString(),
+    };
 
     // 5. Emit the snapshot to teacher dashboard via Socket.IO
 
@@ -225,4 +241,3 @@ export async function POST(req) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
-

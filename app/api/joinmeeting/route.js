@@ -12,15 +12,9 @@ import { stat } from "fs";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import { getUserFromRequest } from "@/lib/getUserFromRequest";
+import e from "express";
 
 export async function POST(req, res) {
-  // if (req.method !== "POST")
-  //   return NextResponse.json({
-  //     success: false,
-  //     message: "Method not allowed",
-  //     status: 405,
-  //   });
-
   await connectDB();
 
   try {
@@ -57,7 +51,7 @@ export async function POST(req, res) {
     // }
 
     const userId = decodedUser.userId;
-    const { meetingId , password , formData } = await req.json();
+    const { meetingId, password, formData } = await req.json();
 
     // 3. Find the user from DB
     const user = await User.findById(userId);
@@ -71,33 +65,43 @@ export async function POST(req, res) {
     }
 
     // 4. Find meeting based on meetingUrl
-    // const meeting = await Meeting.findById(meetingId);
-    // if (!meeting) {
-    //   return NextResponse.json({
-    //     success: false,
-    //     message: "Meeting not found",
-    //     status: 404,
-    //   });
-    // }
+    const meeting = await Meeting.findById(meetingId);
+    if (!meeting) {
+      return NextResponse.json({
+        success: false,
+        message: "Meeting not found",
+        status: 404,
+      });
+    }
+    let meetingUrl;
+    // meeting url for frontend
+    if(meeting.url){
+
+       meetingUrl = `/meeting/member/${meeting.url}`;
+    }else{
+       meetingUrl = `/meeting/member/${meeting._id}`;
+    }
 
     // 5. If user already exists in members, return success
-    // const alreadyMember = meeting.members.some(
-    //   (m) => m.toString() === user._id.toString()
-    // );
+    const alreadyMember = meeting.members.some(
+      (m) => m.toString() === user._id.toString(),
+    );
 
-    // if (!alreadyMember) {
-    //   meeting.members.push(user._id);
-    //   await meeting.save();
-    // }
-
-    await Meeting.findByIdAndUpdate(meetingId, {
-      $addToSet: { members: user._id },
-    } );
+    if (alreadyMember) {
+      if (meeting.admin.toString() === user._id.toString()) {
+        // Admin is rejoining, allow it
+        meetingUrl = `/meeting/admin/${meeting.url}`;
+      }
+    } else {
+      await Meeting.findByIdAndUpdate(meetingId, {
+        $addToSet: { members: user._id },
+      });
+    }
 
     const socketAuth = jwt.sign(
-      { id: user._id, meetingId: meetingId , username: user.name },
+      { id: user._id, meetingId: meetingId, username: user.name },
       process.env.SOCKET_JWT_SECRET,
-      { expiresIn: "30m" }
+      { expiresIn: "30m" },
     );
 
     return NextResponse.json({
@@ -105,6 +109,7 @@ export async function POST(req, res) {
       socketAuth,
       message: "User added to meeting",
       status: 200,
+      meetingUrl,
     });
   } catch (error) {
     console.error("JOIN MEETING ERROR:", error);

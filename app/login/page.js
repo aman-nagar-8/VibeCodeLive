@@ -89,71 +89,11 @@ const Loginpage = () => {
     }
   }
 
-  // useEffect( () => {
-  //    setRefreshToken();
-  // }, [session]);
-
-  // const { data: session , process: status } = useSession();
-
-  // useEffect(() => {
-  //   if (process === "authenticated" && session?.user?.email) {
-  //     fetch("/api/auth/set-refresh-token", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         email: session.user.email,
-  //       }),
-  //     });
-  //   }
-  // }, [session]);
-
-
   async function handleGoogleSignIn() {
     setIsLoading(true);
     await signIn("google" , { callbackUrl: "/" });
 
   }
-
-  // useEffect(() => {
-  //   const tl = createTimeline({ defaults: { duration: 750 } });
-
-  //   tl.label("start")
-  //     .add(".ball", { y: 136, duration: 600, easing: "easeOutCubic" }, "start")
-  //     .add(
-  //       ".ball",
-  //       {
-  //         scaleY: [1, 0.97],
-  //         scaleX: [1, 1.05],
-  //         duration: 200,
-  //         easing: "easeOutQuad",
-  //       },
-  //       "-=200"
-  //     )
-  //     .add(".ball", {
-  //       translateY: [136, 60],
-  //       x: [0, '-40'],
-  //       duration: 400,
-  //       rotate: true,
-
-  //     })
-  //     .add(".ball", {
-  //       translateY: [60, 136],
-  //       translateX: [-40 , -60],
-  //       duration: 400,
-  //       easing: "easeInCubic",
-  //     })
-  //     .add(".ball", {
-  //       translateX:[-60 , -180],
-  //       duration: 700,
-  //       rotate: true,
-  //     })
-  //     .add(".ball", {
-  //       translateY:[136, 266],
-  //       duration: 600,
-  //     });
-  // }, []);
 
   return (
     <div className=" w-screen min-h-screen flex flex-col md:flex-row">
@@ -196,7 +136,7 @@ const Loginpage = () => {
                     value={form.password}
                     onChange={handleChange}
                     placeholder="Enter your password"
-                    className="w-[300px] rounded-lg border border-zinc-700 px-3 py-2.5 text-sm text-zinc-600 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-75 rounded-lg border border-zinc-700 px-3 py-2.5 text-sm text-zinc-600 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <div className="">
                     {Password_hidden ? (
@@ -212,6 +152,10 @@ const Loginpage = () => {
                     )}
                   </div>
                 </div>
+                
+                <div className="flex justify-end w-75 mt-1" ><Link href="/login/forget-password" className="text-sm text-blue-500 font-bold cursor-pointer">
+                  Forgot Password?
+                </Link></div>
               </div>
               {/* <button
                 type="submit"
@@ -225,7 +169,7 @@ const Loginpage = () => {
                   type="submit"
                   className={`${
                     isDisabled ? " cursor-not-allowed " : " cursor-pointer "
-                  } relative px-5 py-2 mt-5 cursor-not-allowed overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group`}
+                  } relative px-5 py-2 mt-3 cursor-not-allowed overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group`}
                 >
                   <span className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-gray-600 group-hover:w-full ease"></span>
                   <span className="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-gray-600 group-hover:w-full ease"></span>
@@ -321,7 +265,7 @@ const Loginpage = () => {
           </div>
         </div>
         {/* // bottom rotated part // */}
-        <div className="w-full h-15 bg-white fixed -bottom-5 -rotate-3"></div>
+        {/* <div className="w-full h-15 bg-white fixed -bottom-5 -rotate-3"></div> */}
         {/* // ball for animation // */}
         {/* <div className="bg-red-400 w-10 h-10 absolute rounded-full top-0 right-15 ball"></div> */}
       </div>

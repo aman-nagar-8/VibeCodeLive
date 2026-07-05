@@ -4,6 +4,8 @@ import Meeting from "@/models/Meeting";
 import User from "@/models/User.model.js";
 import { connectDB } from "@/lib/db.js";
 import { getUserFromRequest } from "@/lib/getUserFromRequest";
+import { nanoid } from "nanoid";
+import  slugify  from "slugify";
 
 export async function POST(req) {
   try {
@@ -16,24 +18,26 @@ export async function POST(req) {
     if (!adminUser) {
       return NextResponse.json(
         { error: "Admin user not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     // Read data from frontend
-    const { name, url , joinPolicy , status , requiredFields } = await req.json();
+    const { name, joinPolicy, status, requiredFields } = await req.json();
 
-    if (!name || !url) {
-      return NextResponse.json(
-        { error: "Name and URL are required" },
-        { status: 400 }
-      );
+    if (!name) {
+      return NextResponse.json({ error: "Name is required" }, { status: 400 });
     }
+    const meetingCode = nanoid(8); // Generate unique meeting URL
+    const slug = slugify(name, {
+      lower: true,
+      trim: true,
+    });
 
     // Create meeting
     const meeting = await Meeting.create({
       name,
-      url,
+      url: `${slug}-${meetingCode}`,
       admin: adminUser._id,
       adminName: adminUser.name,
       joinPolicy,
@@ -49,7 +53,7 @@ export async function POST(req) {
     const socketAuth = jwt.sign(
       { id: adminUser._id, meetingId: meeting._id, username: adminUser.name },
       process.env.SOCKET_JWT_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "15m" },
     );
 
     return NextResponse.json(
@@ -59,13 +63,13 @@ export async function POST(req) {
         socketAuth,
         success: true,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (err) {
     console.error("Meeting creation error:", err);
     return NextResponse.json(
       { error: "Server error", details: err.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

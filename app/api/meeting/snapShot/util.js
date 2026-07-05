@@ -15,7 +15,7 @@ export function buildBehaviorContext(data) {
   const lastNotStarted = notStartedEvents.at(-1);
   const totalPastes = pasteEvents?.length ?? 0;
   const hasCode = code && code.trim().length > 0;
-  const hasOutput = latestOutput && latestOutput.trim().length > 0;
+  const hasOutput = latestOutput && latestOutput.length > 0;
 
   // --- Determine activity status ---
   let status = 'unknown';
@@ -38,7 +38,7 @@ export function buildBehaviorContext(data) {
   // --- Build context string for AI ---
   const contextLines = [
     `Session duration: ${sessionMinutes} minutes`,
-    `Keystrokes: ${keystrokes}, Backspaces: ${backspaces} (ratio: ${backspaceRatio})`,
+    `Keystrokes: ${keystrokes}, Backspaces: ${backspaces} `,
     `Paste events: ${totalPastes}`,
     `Tab switches: ${tabSwitchCount}, Frequent switch bursts: ${frequentSwitchEvents}`,
     `Run attempts: ${runAttempts}, Total errors: ${totalErrors}`,

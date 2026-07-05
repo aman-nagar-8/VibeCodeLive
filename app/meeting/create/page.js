@@ -29,7 +29,7 @@ export default function CreateMeeting() {
   };
 
   const handleCreateMeeting = async () => {
-    if (!meetingName.trim() || !meetingURL.trim()) {
+    if (!meetingName.trim() ) {
       return;
     }
     try {
@@ -51,7 +51,7 @@ export default function CreateMeeting() {
         if(data.success){
            sessionStorage.setItem("socketAuth", data.socketAuth);
           setTimeout(() => {
-            router.push(`/meeting/admin/${data.meeting._id}`);
+            router.push(`/meeting/admin/${data.meeting.url}`);
           }, 2000);
         }
 

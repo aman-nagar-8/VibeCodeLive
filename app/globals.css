@@ -56,4 +56,17 @@ body {
   --color-user-card: #EDE9E6;
 }
 
+.red-black-gradient {
+  background: linear-gradient(
+    to right,
+    #1A1A1A 0%,   /* Matte Black */ 
+    #470000 3%,   /* Deep Crimson */
+    #1A1A1A 10%,
+    #1A1A1A 40%,  /* Matte Black */
+    #470000 70%,  /* Deep Crimson */
+    #1A1A1A 74%, 
+    #1A1A1A 92%,
+    #470000 99%  /* Matte Black */
+  );
+}
 

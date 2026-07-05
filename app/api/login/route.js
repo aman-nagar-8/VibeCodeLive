@@ -81,7 +81,7 @@ export async function POST(req) {
 
     return response;
   } catch (err) {
-    console.error(err);
+    console.error("Error in login route:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

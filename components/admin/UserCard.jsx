@@ -81,10 +81,11 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { RiArrowDownWideLine } from "react-icons/ri";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
+import { div } from "framer-motion/client";
 
 const UserCard = ({ userId }) => {
   const rollNumber = "0832CS";
-  const status = "pending"; // This should ideally come from props or state
+ // This should ideally come from props or state
 
   const user = useSelector((state) => state.meeting.participants.byId[userId]);
 
@@ -104,6 +105,8 @@ const UserCard = ({ userId }) => {
   }
   const snapshot = user.snapshot
   console.log("Snapshot for user", user, ":", snapshot);
+  const status = snapshot?.status ||"pending";
+  const contextArr = snapshot?.contextLines ? snapshot.contextLines.split("\n") : [];
 
   return (
     <div className="w-full flex-1 min-w-66">
@@ -125,7 +128,7 @@ const UserCard = ({ userId }) => {
         </div>
 
         <div className="flex gap-4 items-center">
-          <div className="text-white font-semibold text-sm">82%</div>
+          <div className="text-white font-semibold text-sm">{snapshot?.score ?? 0}%</div>
 
           <div className="text-xs text-gray-200">Active</div>
 
@@ -168,23 +171,21 @@ const UserCard = ({ userId }) => {
                     {/* Last Active: {formatTime(snapshot.report.timestamp)} */}
                   </div>
 
-                  <div>
-                    Runs: {snapshot.engagementScore} | Attempts:{" "}
-                  </div>
-
-                  <div>
-                    {snapshot.score}
-                    {/* {snapshot.report.backspaces} */}
-                  </div>
 
                   {/* 💻 Code Preview */}
-                  <div className="bg-black/40 p-2 rounded text-[10px] max-h-20 overflow-auto mt-2">
-                    {snapshot.suggestedAction}...
+                  <div className=" rounded text-[10px] max-h-30 overflow-auto mt-2 flex gap-2 flex-wrap ">
+                    {contextArr.length > 0 ? ( contextArr.map((text , i)=>(
+                      <div className="bg-black/40 p-1  rounded text-[10px]" key={i}>{text}</div>
+                    ))):"No code activity yet..."}
                   </div>
 
                   {/* 🧾 Output */}
                   <div className="bg-[#2a2a2a] p-2 rounded text-[10px] mt-1">
-                    {snapshot.summery || "No output"}
+                    01. {snapshot.summary.whatStudentDid || "..."}<br />
+                    02. {snapshot.summary.struggling || "..."}<br />
+                    03. {snapshot.summary.doingWell || "..."}<br />
+                    04. {snapshot.summary.suspiciousBehavior || "..."}<br />
+                    05. {snapshot.summary.adviceForTeacher || "..."}<br />
                   </div>
                 </div>
               ) : (
