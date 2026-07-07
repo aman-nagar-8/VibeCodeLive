@@ -7,9 +7,20 @@ import crypto from "node:crypto";
 import { sendEmail } from "@/utils/sendEmail";
 import { verificationEmailTemplate } from "@/utils/verificationEmailTemplate";
 import EmailVerification from "@/models/EmailVerification";
+import { ratelimit } from "@/lib/rateLimiter";
 
 export async function POST(req) {
   try {
+    const ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
+
+    const { success } = await ratelimit.limit(ip);
+
+    if (!success) {
+      return NextResponse.json(
+        { success: false, message: "Too many requests" },
+        { status: 429 },
+      );
+    }
     await connectDB();
 
     const result = registerSchema.safeParse(await req.json());
@@ -76,7 +87,7 @@ export async function POST(req) {
     const response = await sendEmail({
       to: email,
       subject: "Confirm your email 🚀",
-      html: verificationEmailTemplate({name: name, verifyUrl:verifyUrl }),
+      html: verificationEmailTemplate({ name: name, verifyUrl: verifyUrl }),
     });
 
     return response;

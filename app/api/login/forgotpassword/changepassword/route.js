@@ -4,9 +4,22 @@ import { success } from "zod";
 import User from "@/models/User.model.js";
 import bcrypt from "bcrypt";
 import OTP from "@/models/OTP.model";
+import { connectDB } from "@/lib/db.js";
 
 export async function POST(req) {
   try {
+    const ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
+
+    const { success } = await ratelimit.limit(ip);
+
+    if (!success) {
+      return NextResponse.json(
+        { success: false, message: "Too many requests" },
+        { status: 429 },
+      );
+    }
+
+    await connectDB();
     const {
       email: userEmail,
       password: userPassword,
@@ -46,7 +59,6 @@ export async function POST(req) {
     const { password } = passwordResult.data;
 
     const otpInfo = await OTP.findOne({ email });
-    console.log(otpInfo);
 
     if (otpInfo.resetToken !== resetToken) {
       return NextResponse.json(
@@ -54,6 +66,8 @@ export async function POST(req) {
         { status: 400 },
       );
     }
+
+    await OTP.deleteOne({email});
 
     const user = await User.findOne({ email }, { password: 1 });
     if (!user) {
