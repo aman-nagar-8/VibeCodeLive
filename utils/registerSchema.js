@@ -33,3 +33,13 @@ export const emailSchema = z.object({
     .toLowerCase()
     .email("Invalid email address"),
 })
+
+export const passwordSchema = z.object({
+  password: z
+  .string()
+  .trim()
+  .min(6 , "Minimum 6 characters")
+  .regex(/[A-Z]/, "One uppercase latter required")
+  .regex(/[0-9]/, "One number required")
+  .regex(/[^A-Za-z0-9]/, "One special latter required"),
+})
