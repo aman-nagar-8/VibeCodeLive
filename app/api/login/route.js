@@ -5,9 +5,21 @@ import { connectDB } from "@/lib/db.js";
 import { generateAccessToken, generateRefreshToken } from "@/lib/tokens";
 import { hashToken } from "@/lib/hashToken";
 import RefreshToken from "@/models/RefreshToken";
+import { ratelimit } from "@/lib/rateLimiter";
 
 export async function POST(req) {
   try {
+    const ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
+
+    const { success } = await ratelimit.limit(ip);
+
+    if (!success) {
+      return NextResponse.json(
+        { success: false, message: "Too many requests" },
+        { status: 429 },
+      );
+    }
+
     await connectDB();
 
     const { email, password } = await req.json();
@@ -23,7 +35,7 @@ export async function POST(req) {
 
     // Check if user exists
     const user = await User.findOne({ email: email.trim() }).select(
-      "+password"
+      "+password",
     );
 
     if (!user) {

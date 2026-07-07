@@ -5,6 +5,16 @@ import OTP from "@/models/OTP.model";
 
 export async function POST(req) {
   try {
+    const ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
+
+    const { success } = await ratelimit.limit(ip);
+
+    if (!success) {
+      return NextResponse.json(
+        { success: false, message: "Too many requests" },
+        { status: 429 },
+      );
+    }
     await connectDB();
     const { email, otp } = await req.json();
 
@@ -45,13 +55,12 @@ export async function POST(req) {
     const resetToken = crypto.randomUUID();
     storedOTP.resetToken = resetToken;
     await storedOTP.save();
-    console.log(storedOTP)
 
     return NextResponse.json(
       {
         success: true,
         message: "OTP verified successfully",
-        resetToken
+        resetToken,
       },
       { status: 200 },
     );
