@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,7 +23,12 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ],
+      "@videos/*": [
+        "./videos/*"
+      ]
     }
   },
   "include": [
@@ -28,7 +37,15 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
-, "app/meeting/member/[id]/@left/code/page.js", "components/joinMeeting/JoinSection.jsx", "components/joinMeeting/MeetingDetailsCard.jsx", "components/joinMeeting/MeetingSuggestions.jsx", "components/joinMeeting/SearchArea.jsx", "app/meeting/member/[id]/@right/members/page.js"  ],
-  "exclude": ["node_modules"]
+    "**/*.mts",
+    "app/meeting/member/[id]/@left/code/page.js",
+    "components/joinMeeting/JoinSection.jsx",
+    "components/joinMeeting/MeetingDetailsCard.jsx",
+    "components/joinMeeting/MeetingSuggestions.jsx",
+    "components/joinMeeting/SearchArea.jsx",
+    "app/meeting/member/[id]/@right/members/page.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

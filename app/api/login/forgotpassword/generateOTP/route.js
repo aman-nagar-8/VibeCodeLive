@@ -6,6 +6,7 @@ import { sendEmail } from "@/utils/sendEmail";
 import { changePasswordTemplate } from "@/utils/changePasswordTemplate";
 import crypto from "node:crypto";
 import OTP from "@/models/OTP.model";
+import { ratelimit } from "@/lib/rateLimiter";
 
 export async function POST(req) {
   try {
@@ -39,6 +40,8 @@ export async function POST(req) {
         { status: 404 },
       );
     }
+
+    await OTP.findOneAndDelete({ email });
 
     const otp = crypto.randomInt(100000, 1000000).toString();
 

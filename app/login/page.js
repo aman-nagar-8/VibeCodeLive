@@ -16,6 +16,10 @@ import { setUser } from "@/store/userSlice";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { set } from "mongoose";
+import Video from "next-video";
+import interactionVideo from "@/videos/Login_with_zoom.mp4"
+import Image from "next/image";
+
 
 const Loginpage = () => {
   const route = useRouter();
@@ -113,7 +117,7 @@ const Loginpage = () => {
           <div className="relative mt-6">
             <form onSubmit={handleSubmit}>
               <div>
-                <label className="block text-sm font-medium text-zinc-800 mb-1">
+                <label className="block text-xs font-bold text-zinc-600 mb-1">
                   Email Address
                 </label>
                 <input
@@ -126,7 +130,7 @@ const Loginpage = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-zinc-800 mb-1 mt-4">
+                <label className="block text-xs font-bold text-zinc-600 mb-1 mt-4">
                   Password
                 </label>
                 <div className="flex">
@@ -153,7 +157,7 @@ const Loginpage = () => {
                   </div>
                 </div>
                 
-                <div className="flex justify-end w-75 mt-1" ><Link href="/login/forget-password" className="text-sm text-blue-500 font-bold cursor-pointer">
+                <div className="flex justify-end w-75 mt-3" ><Link href="/login/forget-password" className="text-sm text-blue-500 font-bold cursor-pointer">
                   Forgot Password?
                 </Link></div>
               </div>
@@ -169,7 +173,7 @@ const Loginpage = () => {
                   type="submit"
                   className={`${
                     isDisabled ? " cursor-not-allowed " : " cursor-pointer "
-                  } relative px-5 py-2 mt-3 cursor-not-allowed overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group`}
+                  } relative px-5 py-2 mt-3 text-sm cursor-not-allowed overflow-hidden font-bold text-gray-500 bg-gray-100 border border-gray-300 rounded-lg shadow-inner group`}
                 >
                   <span className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-gray-600 group-hover:w-full ease"></span>
                   <span className="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-gray-600 group-hover:w-full ease"></span>
@@ -227,9 +231,12 @@ const Loginpage = () => {
         </div>
       </div>
       {/* // right side // */}
-      <div className="min-h-screen grow bg-[#4b8f89] pl-10 relative hidden md:block overflow-y-scroll">
+      <div className="min-h-screen w-full grow bg-[#4b8f89] pl-10 relative hidden md:block z-0">
+        <Image src={"/Login_bg-1.png"} alt="Login" fill className="object-cover -z-10" />
+
+        <div>
         {/* // heading// */}
-        <div className="">
+        <div className="z-10">
           <div className="mt-8">
             <h3 className="font-bold md:text-3xl sm:text-2xl">
               Collaborate, Learn, Grow—All In One Place.
@@ -246,23 +253,14 @@ const Loginpage = () => {
 
         {/* // mid part // */}
         <div className="mt-9 flex md:flex-col gap-5 sm:flex-col lg:flex-row">
-          {/* // left part // */}
-          <div className="w-[26.5%] h-[500px] min-w-[300px] max-w-[415px] bg-amber-100 rounded-xl"></div>
-          {/* // right part // */}
-          <div className="flex-1 max-w-[1100px]">
-            {/* // first box // */}
-            <div>
-              <div className="w-[75%] max-w-[300px] lg:w-[29%] lg:max-w-60  h-0.5 border-2 relative lg:left-[66.4%] top-10 rounded-2xl "></div>
-            </div>
-            {/* // second box // */}
-            <div>
-              <div className="w-[75%] max-w-[300px] lg:w-[29%] lg:max-w-60 h-0.5 border-2 relative lg:left-[37.4%] top-[170px] rounded-2xl "></div>
-            </div>
-            {/* // third box // */}
-            <div>
-              <div className="w-[75%] max-w-[300px] lg:w-[29%] lg:max-w-60 h-0.5 border-2 relative lg:left-[8.4%] top-[300px] rounded-2xl "></div>
-            </div>
+          <div  className="rounded-2xl overflow-hidden bg-[#4b8f89]"  >
+
+          <Video src={interactionVideo}  width={800} height={450} controls={false} autoPlay loop muted playsInline className=""  />
           </div>
+
+          
+
+        </div>
         </div>
         {/* // bottom rotated part // */}
         {/* <div className="w-full h-15 bg-white fixed -bottom-5 -rotate-3"></div> */}

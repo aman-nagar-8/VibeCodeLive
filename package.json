@@ -33,6 +33,7 @@
     "nanoid": "^5.1.11",
     "next": "^16.1.4",
     "next-auth": "^4.24.13",
+    "next-video": "^2.8.1",
     "nodemailer": "^7.0.11",
     "react": "19.2.0",
     "react-dom": "19.2.0",
@@ -53,6 +54,6 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "5.9.3"
   }
 }

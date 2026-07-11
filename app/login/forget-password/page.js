@@ -4,10 +4,10 @@ import { IoSearch } from "react-icons/io5";
 import Forms from "./Forms";
 
 const page = () => {
-   
   return (
-    <div className="w-screen h-screen flex md:flex-row   bg-[#4b8f89]">
+    <div className="w-screen h-screen flex md:flex-row relative">
       {/* bg-[#4b8f89] */}
+      <Image src={"/forgot_password_bg.png"} alt="forgot" fill className="object-cover -z-10" />
 
       {/* left */}
       <section className="w-53 h-full"></section>
@@ -27,24 +27,16 @@ const page = () => {
           </div>
           <div className="flex-1 bg-white text-black flex flex-col justify-between">
             {/* screen */}
-            <div className="flex-1 flex justify-center relative">
-              <Image
-                src="/laptop-bg-1.jpg"
-                alt="Logo"
-                fill
-                className="object-cover z-0"
-              />
-              <div className="z-10 h-full flex items-end">
-                <div className="w-100 h-112 bg-zinc-800/98 rounded-2xl mb-5 text-zinc-200 p-3">
-                  <h3 className="text-lg font-bold">Forget Password</h3>
-                  <Forms />
-                </div>
+            <div className="flex-1 flex relative">
+              <div className="h-full w-1/2 p-10" >
+                <h3 className="text-lg font-bold mb-10">Forget Password</h3>
+                <Forms />
+                <div></div>
               </div>
-              <div></div>
-              <div></div>
+              <div className="h-full w-1/2 bg-blue-300" ></div>
             </div>
             {/* navbar */}
-            <div className="w-full h-10 red-black-gradient flex justify-between">
+            {/* <div className="w-full h-10 red-black-gradient flex justify-between">
               <div></div>
               <div className="flex items-center gap-2.5">
                 <Image
@@ -82,7 +74,7 @@ const page = () => {
                 <p>22:07</p>
                 <p>05-07-2026</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
