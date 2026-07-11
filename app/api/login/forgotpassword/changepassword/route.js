@@ -5,6 +5,7 @@ import User from "@/models/User.model.js";
 import bcrypt from "bcrypt";
 import OTP from "@/models/OTP.model";
 import { connectDB } from "@/lib/db.js";
+import { ratelimit } from "@/lib/rateLimiter";
 
 export async function POST(req) {
   try {

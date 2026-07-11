@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db.js";
 import crypto from "node:crypto";
 import OTP from "@/models/OTP.model";
+import { ratelimit } from "@/lib/rateLimiter";
 
 export async function POST(req) {
   try {

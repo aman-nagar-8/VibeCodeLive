@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono , Rubik } from "next/font/google";
 import "./globals.css";
 import { Providers , AuthBootstrapc}from "./providers";
 
@@ -12,6 +12,14 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+// Configure the font object
+const rubik = Rubik({
+  subsets: ['latin'],
+  variable: "--font-rubik",
+  display: 'swap', // Prevents layout shift
+});
+
 
 export const metadata: Metadata = {
   title: "Vibe Code Live ",
@@ -29,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={` ${rubik.variable} antialiased`}
       >
         <Providers>
           <AuthBootstrapc>{children}</AuthBootstrapc>
