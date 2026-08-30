@@ -6,6 +6,7 @@ import { connectDB } from "@/lib/db.js";
 import { getUserFromRequest } from "@/lib/getUserFromRequest";
 import { nanoid } from "nanoid";
 import  slugify  from "slugify";
+import { ApiError } from "@/lib/errors";
 
 export async function POST(req) {
   try {
@@ -13,6 +14,15 @@ export async function POST(req) {
 
     // Get user from cookies
     const decodedUser = await getUserFromRequest(req);
+
+    console.log("Decoded User:", decodedUser);
+
+    if(!decodedUser){
+      return NextResponse.json(
+        { error: "Unauthorized",message: "User not authenticated" },
+        { status: 401 },
+      );
+    }
 
     const adminUser = await User.findById(decodedUser.userId);
     if (!adminUser) {
@@ -65,11 +75,30 @@ export async function POST(req) {
       },
       { status: 201 },
     );
-  } catch (err) {
-    console.error("Meeting creation error:", err);
-    return NextResponse.json(
-      { error: "Server error", details: err.message },
-      { status: 500 },
+  } catch (error) {
+
+        if (error instanceof ApiError) {
+      return Response.json(
+        {
+          success: false,
+          message: error.message,
+          code: error.code,
+        },
+        {
+          status: error.status,
+        }
+      );
+    }
+    console.error("Error creating meeting:", error);
+    return Response.json(
+      {
+        success: false,
+        message: "Internal server error.",
+        code: "INTERNAL_ERROR",
+      },
+      {
+        status: 500,
+      }
     );
   }
 }
