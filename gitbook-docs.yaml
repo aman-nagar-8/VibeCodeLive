@@ -2,10 +2,28 @@ $schema: https://api.gitbook.com/gitbook-docs.yaml
 site:
   title: Vibe-code-live Docs
   structure:
-    - type: space
-      key: space-1
-      title: Untitled
-      path: untitled
+    - type: section
+      key: section-1
+      title: Vibe-code-live Docs
+      path: vibe-code-live-docs
       default: true
-      content:
-        directory: ./untitled
+      children:
+        - type: space
+          key: space-1
+          title: Untitled
+          path: untitled
+          default: true
+          content:
+            directory: ./untitled
+    - type: section
+      key: section-2
+      title: Vibe Code Live Docs
+      path: vibe-code-live-docs-1
+      children:
+        - type: space
+          key: space-2
+          title: Landing Page
+          path: landing-page
+          default: true
+          content:
+            directory: ./vibe-code-live-docs-1/landing-page
