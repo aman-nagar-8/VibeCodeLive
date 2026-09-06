@@ -1,0 +1,402 @@
+[
+  {
+    "email": "loadtest_student_001@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_002@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_003@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_004@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_005@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_006@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_007@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_008@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_009@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_010@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_011@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_012@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_013@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_014@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_015@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_016@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_017@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_018@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_019@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_020@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_021@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_022@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_023@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_024@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_025@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_026@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_027@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_028@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_029@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_030@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_031@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_032@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_033@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_034@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_035@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_036@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_037@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_038@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_039@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_040@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_041@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_042@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_043@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_044@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_045@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_046@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_047@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_048@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_049@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_050@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_051@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_052@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_053@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_054@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_055@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_056@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_057@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_058@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_059@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_060@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_061@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_062@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_063@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_064@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_065@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_066@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_067@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_068@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_069@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_070@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_071@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_072@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_073@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_074@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_075@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_076@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_077@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_078@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_079@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_080@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_081@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_082@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_083@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_084@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_085@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_086@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_087@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_088@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_089@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_090@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_091@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_092@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_093@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_094@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_095@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_096@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_097@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_098@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_099@example.com",
+    "password": "LoadTest@2026"
+  },
+  {
+    "email": "loadtest_student_100@example.com",
+    "password": "LoadTest@2026"
+  }
+]

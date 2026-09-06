@@ -7,7 +7,6 @@ import Navbar from "@/components/Navbar.jsx"
 export default function App() {
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
       <div className="max-w-7xl mx-aut px-6 pt-2 pb-15">
 
         <div className="grid grid-cols-1 lg:grid-cols-[33%_67%] gap-8">

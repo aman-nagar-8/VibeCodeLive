@@ -84,10 +84,19 @@ export async function POST(req) {
     const verifyUrl = `http://${process.env.APP_URL}/login/register/VerifyEmail?token=${rawToken}`;
 
     // send email
-    const response = await sendEmail({
-      to: email,
-      subject: "Confirm your email 🚀",
-      html: verificationEmailTemplate({ name: name, verifyUrl: verifyUrl }),
+    // const response = await sendEmail({
+    //   to: email,
+    //   subject: "Confirm your email 🚀",
+    //   html: verificationEmailTemplate({ name: name, verifyUrl: verifyUrl }),
+    // });
+
+    //temporary solution for email verification
+    return NextResponse.json({
+      status: 200,
+      data: null,
+      message: "We’ve sent a verification link to your email. Please verify to continue.",
+      success: true,
+      verifyUrl: verifyUrl,
     });
 
     return response;

@@ -101,7 +101,7 @@ export async function POST(req, res) {
     const socketAuth = jwt.sign(
       { id: user._id, meetingId: meetingId, username: user.name },
       process.env.SOCKET_JWT_SECRET,
-      { expiresIn: "30m" },
+      { expiresIn: "60m" },
     );
 
     return NextResponse.json({
