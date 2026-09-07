@@ -90,6 +90,15 @@ export async function POST(req) {
       html: verificationEmailTemplate({ name: name, verifyUrl: verifyUrl }),
     });
 
+    //temporary solution for email verification
+    // return NextResponse.json({
+    //   status: 200,
+    //   data: null,
+    //   message: "We’ve sent a verification link to your email. Please verify to continue.",
+    //   success: true,
+    //   verifyUrl: verifyUrl,
+    // });
+
     return response;
   } catch (err) {
     console.log(err);
