@@ -10,7 +10,7 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import { IoReload } from "react-icons/io5";
 import { useEffect, useRef, useCallback } from "react";
 import { useStudentTracking, getReport } from "./UseStudentTracking.js";
-import { sendCodeSnapshot } from "@/lib/socketService";
+import { sendCodeSnapshot, onGetStudentCode, sendStudentCodeResponse } from "@/lib/socketService";
 import { useParams } from "next/navigation.js";
 
 const Code = () => {
@@ -20,7 +20,30 @@ const Code = () => {
   const [messageArray, setMessageArray] = useState([{}]);
 
   const outputRef = useRef(null);
-    const { id } = useParams();
+  const codeRef = useRef(Code);
+  const { id } = useParams();
+
+  // Keep codeRef updated with the latest code state
+  useEffect(() => {
+    codeRef.current = Code;
+  }, [Code]);
+
+  // Listen for teacher's one-time code requests over existing WebSocket
+  useEffect(() => {
+    const cleanup = onGetStudentCode(({ requestId, meetingId }) => {
+      console.log("Student received get-current-code request:", requestId);
+      sendStudentCodeResponse({
+        requestId,
+        meetingId: meetingId || id,
+        code: codeRef.current || "",
+        language: "javascript",
+      });
+    });
+
+    return () => {
+      cleanup?.();
+    };
+  }, [id]);
 
   useEffect(() => {
     outputRef.current?.scrollTo({
@@ -201,7 +224,8 @@ print(add(2, 3))
               },
             }}
             onChange={(value) => {
-              setCode(value);
+              codeRef.current = value || "";
+              setCode(value || "");
               // sendCode();
             }}
             onMount={handleEditorMount}

@@ -9,16 +9,16 @@ import { ratelimit } from "@/lib/rateLimiter";
 
 export async function POST(req) {
   try {
-    const ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
+    // const ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
 
-    const { success } = await ratelimit.limit(ip);
+    // const { success } = await ratelimit.limit(ip);
 
-    if (!success) {
-      return NextResponse.json(
-        { success: false, message: "Too many requests" },
-        { status: 429 },
-      );
-    }
+    // if (!success) {
+    //   return NextResponse.json(
+    //     { success: false, message: "Too many requests" },
+    //     { status: 429 },
+    //   );
+    // }
 
     await connectDB();
 

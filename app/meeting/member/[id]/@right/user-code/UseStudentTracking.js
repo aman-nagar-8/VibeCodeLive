@@ -96,7 +96,6 @@ export function useStudentTracking({
         ...detail,
       };
       session.current.flags.push(event);
-      console.warn(`[Tracking] FLAG: ${type}`, event);
       onFlag(event);
     },
     [studentId, assignmentId, onFlag],

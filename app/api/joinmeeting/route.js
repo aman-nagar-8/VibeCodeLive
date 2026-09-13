@@ -87,8 +87,10 @@ export async function POST(req, res) {
       (m) => m.toString() === user._id.toString(),
     );
 
+    const isHost = meeting.admin.toString() === user._id.toString();
+
     if (alreadyMember) {
-      if (meeting.admin.toString() === user._id.toString()) {
+      if (isHost) {
         // Admin is rejoining, allow it
         meetingUrl = `/meeting/admin/${meeting.url}`;
       }
@@ -99,7 +101,14 @@ export async function POST(req, res) {
     }
 
     const socketAuth = jwt.sign(
-      { id: user._id, meetingId: meetingId, username: user.name },
+      {
+        id: user._id,
+        meetingId: meeting._id.toString(),
+        meetingUrl: meeting.url,
+        username: user.name,
+        isHost,
+        role: isHost ? "teacher" : "student",
+      },
       process.env.SOCKET_JWT_SECRET,
       { expiresIn: "60m" },
     );

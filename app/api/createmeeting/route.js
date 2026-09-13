@@ -61,7 +61,14 @@ export async function POST(req) {
     });
 
     const socketAuth = jwt.sign(
-      { id: adminUser._id, meetingId: meeting._id, username: adminUser.name },
+      {
+        id: adminUser._id,
+        meetingId: meeting._id.toString(),
+        meetingUrl: meeting.url,
+        username: adminUser.name,
+        isHost: true,
+        role: "teacher",
+      },
       process.env.SOCKET_JWT_SECRET,
       { expiresIn: "15m" },
     );

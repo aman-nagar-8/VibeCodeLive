@@ -89,48 +89,6 @@ const Base = ({
     },
   ];
 
-  // const router = useRouter();
-  // const { id } = useParams<{ id: string }>();
-
-  // useEffect(() => {
-  //   const token = sessionStorage.getItem("socketAuth");
-
-  //   if (!token) {
-  //     router.replace("/meeting/join");
-  //     return;
-  //   }
-  //   console.log(token);
-  //   socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
-  //     transports: ["websocket"],
-  //     auth: {
-  //       token,
-  //     },
-  //   });
-  //   console.log("socket :", socket);
-  //   socket.on("connect", () => {
-  //     console.log("🟢 Socket.IO connected");
-  //     socket?.emit("join-meeting", { meetingId: id });
-  //   });
-  //   socket.on("disconnect", () => {
-  //     console.log("⚫ Socket.IO disconnected");
-  //   });
-
-  //   socket.on("connect_error", (err) => {
-  //     console.error("🔴 Socket.IO error:", err.message);
-  //   });
-
-  //   return () => {
-  //     socket?.disconnect();
-  //   };
-  // }, [router]);
-
-  // useEffect(() => {
-  //   socket?.on("user-joined", (data) => {
-  //     console.log("✅ User joined meeting:", data.user);
-  //   });
-  // }, [socket]);
-
-
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -142,6 +100,7 @@ const Base = ({
       router.replace("/meeting/join");
       return;
     }
+    console.log("connecting socket with token:", token);
 
     connectSocket(token);
     dispatch(setMeetingId(id));

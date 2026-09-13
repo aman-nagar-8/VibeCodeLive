@@ -76,18 +76,75 @@
 // export default UserCard;
 
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { RiArrowDownWideLine } from "react-icons/ri";
+import { RiArrowDownWideLine, RiCodeSSlashLine } from "react-icons/ri";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSelector } from "react-redux";
-import { div } from "framer-motion/client";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "next/navigation";
+import { store } from "@/store";
+import {
+  requestStudentCodeStart,
+  receiveStudentCodeError,
+} from "@/store/meetingSlice";
+import { requestStudentCode } from "@/lib/socketService";
 
 const UserCard = ({ userId }) => {
   const rollNumber = "0832CS";
  // This should ideally come from props or state
 
   const user = useSelector((state) => state.meeting.participants.byId[userId]);
+  
+  const meetingIdFromState = useSelector((state) => state.meeting.meetingId);
+  const params = useParams();
+  const meetingId = meetingIdFromState || params?.id;
+  const dispatch = useDispatch();
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    }
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [menuOpen]);
+
+  const handleSeeCode = (e) => {
+    e.stopPropagation();
+    setMenuOpen(false);
+
+    if (!user?.id || !meetingId) return;
+
+    const requestId = `req_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    dispatch(
+      requestStudentCodeStart({
+        studentId: user.id,
+        studentName: user.username,
+      })
+    );
+
+    requestStudentCode(meetingId, user.id, requestId);
+
+    // 10-second timeout guard: do not leave the UI permanently loading
+    setTimeout(() => {
+      const currentLoading =
+        store.getState()?.meeting?.studentCodeTabs?.loading?.[user.id];
+      if (currentLoading) {
+        dispatch(
+          receiveStudentCodeError({
+            studentId: user.id,
+            error: "Student did not respond in time. Please try again.",
+          })
+        );
+      }
+    }, 10000);
+  };
 
   if (!user) return null;
 
@@ -114,7 +171,7 @@ const UserCard = ({ userId }) => {
       <div
         className={`w-full h-12 rounded-t-xl flex items-center px-3 justify-between 
         bg-linear-to-r from-[#005461] ${statusColors[status] || statusColors.idle} 
-        borde border-whi backdrop-blur-sm`}
+        borde border-whi backdrop-blur-sm relative`}
       >
         <div className="flex gap-3 items-center">
           <div className="h-9 w-9 bg-[#BFC6C4] rounded-lg"></div>
@@ -127,12 +184,37 @@ const UserCard = ({ userId }) => {
           </div>
         </div>
 
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-3 items-center">
           <div className="text-white font-semibold text-sm">{snapshot?.score ?? 0}%</div>
 
           <div className="text-xs text-gray-200">Active</div>
 
-          <BsThreeDotsVertical className="text-gray-200 cursor-pointer hover:text-white transition" />
+          <div className="relative" ref={menuRef}>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setMenuOpen((prev) => !prev);
+              }}
+              aria-label="More options"
+              className="p-1 rounded hover:bg-white/10 text-gray-200 hover:text-white transition flex items-center justify-center"
+            >
+              <BsThreeDotsVertical />
+            </button>
+
+            {menuOpen && (
+              <div className="absolute right-0 top-full mt-1.5 w-36 bg-[#1e1e1e] border border-zinc-700/80 rounded-lg shadow-2xl py-1 z-50 overflow-hidden">
+                <button
+                  type="button"
+                  onClick={handleSeeCode}
+                  className="w-full px-3 py-2 text-left text-xs text-zinc-200 hover:bg-[#333333] hover:text-white flex items-center gap-2 transition cursor-pointer"
+                >
+                  <RiCodeSSlashLine className="text-emerald-400 text-sm" />
+                  <span>See Code</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
